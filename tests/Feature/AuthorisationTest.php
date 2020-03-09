@@ -58,4 +58,28 @@ class AuthorisationTest extends TestCase
         $response->assertRedirect('/dashboard');
         $this->assertAuthenticatedAs($user);
     }
+
+    /**
+     *
+     * @test
+     */
+    public function Incorrect_Credentials_Do_Not_Allow_Login()
+    {
+        $user = factory(User::class)->create([
+            'password' => bcrypt('test123'),
+        ]);
+        
+        $response = $this->from('/login')->post('/login', [
+            'email' => $user->email,
+            'password' => 'invalid-password',
+        ]);
+        
+        $response->assertRedirect('/login');
+        $response->assertSessionHasErrors('email');
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertInvalidCredentials(['email' => $user->email,
+        'password' => 'invalid-password',] );
+        $this->assertGuest();
+    }
 }
