@@ -82,4 +82,99 @@ class AuthorisationTest extends TestCase
         'password' => 'invalid-password',] );
         $this->assertGuest();
     }
+
+     /**
+     * A candidate should be able to tick remember me and have a session cookie saved
+     * @test
+     */
+    public function Selecting_Remember_Me_Correctly_Creates_Cookie()
+    {
+        $user = factory(User::class)->create([
+            'id' => random_int(1, 100),
+            'password' => bcrypt($password = 'password123'),
+        ]);
+        
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => $password,
+            'remember' => 'on',
+        ]);
+        
+        $response->assertRedirect('/dashboard');
+        $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
+            $user->id,
+            $user->getRememberToken(),
+            $user->password,
+        ]));
+        $this->assertAuthenticatedAs($user);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Forgot_My_Password_Should_Send_Email_Link()
+    {
+        Notification::fake();
+      
+        $user = factory(User::class)->create();
+      
+        $response = $this->post('/password/email', [
+            'email' => $user->email,
+        ]);
+
+        $token = DB::table('password_resets')->first();
+        $this->assertNotNull($token);
+
+        Notification::assertSentTo($user, ResetPassword::class, function ($notification, $channels) use ($token) {
+            return Hash::check($notification->token, $token->token) === true;
+        });
+    }
+
+    /**
+     * 
+     * @test
+     */
+    public function Logout_Should_Delete_Session()
+    {
+        $user = factory(User::class)->create([
+            'id' => random_int(1, 100),
+            'password' => bcrypt($password = 'password123'),
+        ]);
+        
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => $password,
+            'remember' => 'on',
+        ]);
+        
+        Auth::logout();
+
+        $this->assertGuest();
+
+    }
+
+    /**
+     * 
+     * @test
+     */
+    public function Login_Snapshot_Test()
+    {
+        $view = 'resources\views\auth\login.blade.php';
+
+        $this->assertMatchesFileSnapshot($view);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Redirect_To_Dashboard_When_Loggedin()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $response = $this->get('/login');
+        $response->assertRedirect('/dashboard');
+        $response->assertStatus(302);
+    }
 }

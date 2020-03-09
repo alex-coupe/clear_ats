@@ -27,5 +27,5 @@ Route::get('/recruiters', function () {
     return view('recruiters');
 });
 
-Route::get('/dashboard', 'HomeController@index')->middleware('auth');
+Route::get('/dashboard', 'DashboardController@index')->middleware('auth');
 
