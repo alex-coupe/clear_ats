@@ -17,24 +17,45 @@ class AuthorisationTest extends TestCase
 {
     use RefreshDatabase;
     use MatchesSnapshots;
-    
-    /**
-    * @test
-    */
-    public function Candidate_Route_Should_Return_Login_Page_When_Not_LoggedIn()
+
+      /**
+     *
+     * @test
+     */
+    public function User_Should_See_Login_Page_When_Not_Logged_In()
     {
-        $response = $this->get('/candidates');
+        $response = $this->get('/login');
         $response->assertViewIs('auth.login');
         $response->assertStatus(200);
     }
+    
+    /**
+     *
+     * @test
+     */
+    public function User_Should_Be_Redirected_To_Login_When_Not_Authorised()
+    {
+        $response = $this->get('/dashboard');
+        $response->assertRedirect('/login');
+        $response->assertStatus(302);
+    }
 
     /**
-    * @test
-    */
-    public function Recruiter_Route_Should_Return_Login_Page_When_Not_LoggedIn()
+     * 
+     * @test
+     */
+    public function Authenticated_Users_Can_See_Dashboard_When_LoggedIn()
     {
-        $response = $this->get('/recruiters');
-        $response->assertViewIs('auth.login');
-        $response->assertStatus(200);
+        $user = factory(User::class)->create([
+        'password' => bcrypt($password = 'test123'),
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => $password,
+        ]);
+
+        $response->assertRedirect('/dashboard');
+        $this->assertAuthenticatedAs($user);
     }
 }

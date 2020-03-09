@@ -20,9 +20,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/candidates', function () {
-    return view('auth.login');
-})->name('candidates')->middleware('guest');
+    return view('candidates');
+});
 
 Route::get('/recruiters', function () {
-    return view('auth.login');
-})->name('recruiters')->middleware('guest');
+    return view('recruiters');
+});
+
+Route::get('/dashboard', 'HomeController@index')->middleware('auth');
+
