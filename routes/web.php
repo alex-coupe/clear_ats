@@ -14,18 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
-
-Route::get('/candidates', function () {
-    return view('candidates');
-});
-
-Route::get('/recruiters', function () {
-    return view('recruiters');
-});
 
 Route::get('/dashboard', 'DashboardController@index')->middleware('auth');
 

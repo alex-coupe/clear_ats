@@ -18,13 +18,13 @@ class AuthorisationTest extends TestCase
     use RefreshDatabase;
     use MatchesSnapshots;
 
-      /**
+     /**
      *
      * @test
      */
     public function User_Should_See_Login_Page_When_Not_Logged_In()
     {
-        $response = $this->get('/login');
+        $response = $this->get('/');
         $response->assertViewIs('auth.login');
         $response->assertStatus(200);
     }

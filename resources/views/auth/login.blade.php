@@ -3,9 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <h3 class="text-center">Welcome to Clear Applicant Tracking</h3>
         <div class="col-md-6">
             <div class="card" style="background-color: #6B6570; color: #EFF6E0">
-                <div class="card-header text-center"><h4 class="m-0">{{ __('Login') }}</h4></div>
+                <div class="card-header text-center"><h5 class="m-0">{{ __('Login') }}</h5></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -13,8 +14,9 @@
 
                         <div class="row">
                             <div class="input-field col s6">
-                              <input id="email" type="email" class="validate autocomplete @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                              <label for="email">{{ __('E-Mail Address') }}</label>
+                            <label for="email">{{ __('E-Mail Address') }}</label>
+                              <input id="email" type="email" class=" validate autocomplete @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                              
                               @error('email')
                               <span class="invalid-feedback" role="alert">
                                   <strong>{{ $message }}</strong>
@@ -56,7 +58,7 @@
                         <div class="row">
                             <div class="mx-auto">
                                 @if (Route::has('password.request'))
-                                    <a class="btn waves-effect waves-light" href="{{ route('password.request') }}">
+                                    <a style="color: #EFF6E0" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
