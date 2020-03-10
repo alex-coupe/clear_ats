@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\User;
-
+use App\Http\Requests\StoreUser;
 class UsersController extends Controller
 {
     /**
@@ -21,12 +22,13 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreUser  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        //
+        $user = User::create($request->validated());
+        return $user;
     }
 
     /**
@@ -37,7 +39,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        return new UserResource(User::where('id',$id)->first());
     }
 
     /**

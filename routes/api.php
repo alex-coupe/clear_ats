@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/users', 'UsersController@index');
+Route::get('/user/{id}', 'UsersController@show');
+Route::post('/users', 'UsersController@store');
+
+
 //middleware('auth:airlock')->
