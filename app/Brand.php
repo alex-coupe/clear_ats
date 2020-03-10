@@ -17,6 +17,6 @@ class Brand extends Model
 
     public function users()
     {
-        $this->belongsToMany('App\User', 'brands_to_users', 'brand_id', 'user_id');
+        $this->belongsToMany('App\User');
     }
 }

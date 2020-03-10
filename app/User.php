@@ -37,11 +37,11 @@ class User extends Authenticatable
 
     public function brands()
     {
-        $this->belongsToMany('App\Brand', 'brands_to_users', 'user_id', 'brand_id');
+        $this->belongsToMany('App\Brand', 'brands_users', 'user_id', 'brand_id');
     }
 
     public function roles()
     {
-        $this->belongsToMany('App\Role');
+        $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
     }
 }
