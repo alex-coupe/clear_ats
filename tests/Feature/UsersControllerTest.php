@@ -78,10 +78,9 @@ class UsersTestController extends TestCase
      */
     public function Put_User_Updates_DB_Entry()
     {
-        $this->withoutExceptionHandling();
         Airlock::actingAs(
             factory(User::class)->create(),
-            ['store']
+            ['*']
         );
 
         $user = factory(User::class)->create();
@@ -103,5 +102,54 @@ class UsersTestController extends TestCase
             'first_name' => 'updated name',
         ]);
         $response->assertStatus(200);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Delete_User_Removes_DB_Entry()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        "last_name" => $user->last_name,  'email' => 'unique@unique.com',
+        'email_verified_at' => $user->email_verified_at,
+        'password' => $user->password,
+        'remember_token' => $user->remember_token,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'job_title' => $user->job_title,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob
+        ]);
+
+        $response = $this->json('DELETE','/api/user/1');
+        $response->assertJson([
+            'success' => 1,
+        ]);
+        $response->assertStatus(200);
+
+    }
+
+    
+    /**
+     *
+     * @test
+     */
+    public function Delete_Unknown_User_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        $response = $this->json('DELETE','/api/user/2');
+        $response->assertStatus(404);
+
     }
 }

@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/users', 'UsersController@index');
-Route::get('/user/{id}', 'UsersController@show');
-Route::post('/users', 'UsersController@store');
-Route::put('/user/{id}', 'UsersController@update');
+Route::middleware('auth:airlock')->get('/users', 'UsersController@index');
+Route::middleware('auth:airlock')->get('/user/{id}', 'UsersController@show');
+Route::middleware('auth:airlock')->post('/users', 'UsersController@store');
+Route::middleware('auth:airlock')->put('/user/{id}', 'UsersController@update');
+Route::middleware('auth:airlock')->delete('/user/{id}', 'UsersController@destroy');
 
 
 //middleware('auth:airlock')->
