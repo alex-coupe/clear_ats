@@ -25,8 +25,8 @@ class AuthorisationTest extends TestCase
     public function User_Should_See_Login_Page_When_Not_Logged_In()
     {
         $response = $this->get('/');
-        $response->assertViewIs('auth.login');
-        $response->assertStatus(200);
+        $response->assertRedirect('/login');
+        $response->assertStatus(302);
     }
     
     /**
