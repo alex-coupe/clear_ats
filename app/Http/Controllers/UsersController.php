@@ -7,6 +7,7 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\User;
 use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 class UsersController extends Controller
 {
     /**
@@ -49,9 +50,11 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->validated());
+        return $user;
     }
 
     /**
