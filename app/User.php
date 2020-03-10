@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         $this->belongsToMany('App\Brand', 'brands_to_users', 'user_id', 'brand_id');
     }
+
+    public function roles()
+    {
+        $this->belongsToMany('App\Role');
+    }
 }
