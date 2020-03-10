@@ -40,7 +40,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return new UserResource(User::where('id',$id)->first());
+        return new UserResource(User::where('id',$id)->firstOrFail());
     }
 
     /**
