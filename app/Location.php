@@ -10,6 +10,6 @@ class Location extends Model
 
     public function users()
     {
-        $this->hasMany('App\User');
+       return $this->hasMany('App\User');
     }
 }

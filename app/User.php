@@ -38,11 +38,16 @@ class User extends Authenticatable
 
     public function brands()
     {
-        $this->belongsToMany('App\Brand', 'brands_users', 'user_id', 'brand_id');
+        return $this->belongsToMany('App\Brand', 'brands_users', 'user_id', 'brand_id');
     }
 
     public function roles()
     {
-        $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
+    }
+
+    public function location()
+    {
+        return $this->hasOne('App\Location', 'id', 'location_id');
     }
 }
