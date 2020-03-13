@@ -159,6 +159,314 @@ class UsersTestController extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Email_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        'email_verified_at' => $user->email_verified_at,
+        'password' => $user->password,
+        'remember_token' => $user->remember_token,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'job_title' => $user->job_title,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Password_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'job_title' => $user->job_title,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Telephone_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'location_id' => $user->location_id,
+        'job_title' => $user->job_title,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Location_Id_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'job_title' => $user->job_title,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Job_Title_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Mobile_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'job_title' => $user->job_title,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Dob_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'mobile' => $user->job_title,
+        'job_title' => $user->job_title
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Post_User_Erroneous_Email_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => 'this_is_not_an_email.com',
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'mobile' => $user->job_title,
+        'job_title' => $user->job_title,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Post_User_Erroneous_Dob_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'mobile' => $user->job_title,
+        'job_title' => $user->job_title,
+        'dob' => 'Not a dob'
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Post_User_Duplicate_Email_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => 'dupe@email.com',
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'mobile' => $user->job_title,
+        'job_title' => $user->job_title,
+        'dob' => $user->dob
+        ]);
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => 'dupe@email.com',
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'location_id' => $user->location_id,
+        'mobile' => $user->job_title,
+        'job_title' => $user->job_title,
+        'dob' => $user->dob
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+
      /**
      *
      * @test

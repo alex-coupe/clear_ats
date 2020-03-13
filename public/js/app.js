@@ -65626,6 +65626,7 @@ __webpack_require__(/*! ./components/App */ "./resources/js/components/App.js");
 /***/ (function(module, exports, __webpack_require__) {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+axios.defaults.withCredentials = true;
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -65721,8 +65722,8 @@ if (document.getElementById('app')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\ClearATS\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\ClearATS\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\paul\Documents\Alexander Programming\Repos\clear_ats\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\paul\Documents\Alexander Programming\Repos\clear_ats\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
