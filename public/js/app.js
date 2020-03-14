@@ -65754,6 +65754,24 @@ function Login() {
       rememberMe = _useState6[0],
       updateRememberMe = _useState6[1];
 
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+    axios.get('/airlock/csrf-cookie').then(function (response) {
+      axios.post('/login', {
+        email: email,
+        password: password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
+        return console.log("hi");
+      })["catch"](function (err) {
+        console.error(err.response.data.errors);
+      });
+    });
+  };
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row justify-content-center"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -65770,7 +65788,11 @@ function Login() {
     className: "m-0"
   }, "Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: function onSubmit(e) {
+      return handleSubmit(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-field col s6"

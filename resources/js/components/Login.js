@@ -5,6 +5,20 @@ export default function Login() {
     const [password, updatePassword] = useState("");
     const [rememberMe, updateRememberMe] = useState(false);
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.get('/airlock/csrf-cookie').then(response => {
+           axios.post('/login', {
+               email,
+               password,
+           },{
+           headers: { 'Content-Type': 'application/json' }
+        }).then(res => console.log("hi")).catch(err => {
+            console.error(err.response.data.errors);
+            });
+        });
+    }
+
     return (
       
             <div className="row justify-content-center">
@@ -13,7 +27,7 @@ export default function Login() {
                         <div className="card col-md-6 col-lg-6" style={{backgroundColor: "#6B6570", color: "#EFF6E0"}}>
                             <div className="card-header text-center"><h5 className="m-0">Login</h5></div>
                                 <div className="card-body">
-                                    <form>
+                                    <form onSubmit={(e) => handleSubmit(e)}>
                                         <div className="row">
                                             <div className="input-field col s6">
                                                 <label htmlFor="email">Email Address</label>
