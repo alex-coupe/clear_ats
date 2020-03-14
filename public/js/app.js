@@ -65696,6 +65696,19 @@ function App() {
       loggedIn = _useState2[0],
       setLoggedIn = _useState2[1];
 
+  var logout = function logout() {
+    axios.post('/logout', {}, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (res) {
+      console.log(res);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+    setLoggedIn(false);
+  };
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row justify-content-center"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -65706,7 +65719,12 @@ function App() {
     className: "card-header"
   }, "Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card-body"
-  }, "You are logged in!")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "You are logged in!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn waves-effect waves-light",
+    onClick: function onClick() {
+      return logout();
+    }
+  }, "logout")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login__WEBPACK_IMPORTED_MODULE_2__["default"], {
     logIn: setLoggedIn
   }));
 }

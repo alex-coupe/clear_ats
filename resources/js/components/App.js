@@ -4,6 +4,20 @@ import Login from './Login';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
+
+    const logout = () => {
+            axios.post('/logout', {
+             
+            },{
+            headers: { 'Content-Type': 'application/json' }
+         }).then(res => {
+            console.log(res);
+         })
+         .catch(err => {
+            console.log(err);
+        });
+        setLoggedIn(false);
+    } 
     return (
        
         <div>
@@ -14,6 +28,7 @@ function App() {
                         <div className="card-header">Dashboard</div>
 
                         <div className="card-body">You are logged in!</div>
+                        <button className="btn waves-effect waves-light"onClick={() => logout()}>logout</button>
                     </div>
                 </div>
             </div> : <Login logIn={setLoggedIn}/> }
