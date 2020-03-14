@@ -65702,11 +65702,10 @@ function App() {
         'Content-Type': 'application/json'
       }
     }).then(function (res) {
-      console.log(res);
+      setLoggedIn(false);
     })["catch"](function (err) {
       console.log(err);
     });
-    setLoggedIn(false);
   };
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

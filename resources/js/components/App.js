@@ -7,16 +7,15 @@ function App() {
 
     const logout = () => {
             axios.post('/logout', {
-             
             },{
             headers: { 'Content-Type': 'application/json' }
          }).then(res => {
-            console.log(res);
+            setLoggedIn(false);
          })
          .catch(err => {
             console.log(err);
         });
-        setLoggedIn(false);
+        
     } 
     return (
        
