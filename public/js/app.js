@@ -65706,7 +65706,9 @@ function App() {
     className: "card-header"
   }, "Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card-body"
-  }, "You are logged in!")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+  }, "You are logged in!")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    logIn: setLoggedIn
+  }));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -65738,7 +65740,7 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-function Login() {
+function Login(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
       _useState2 = _slicedToArray(_useState, 2),
       email = _useState2[0],
@@ -65754,20 +65756,27 @@ function Login() {
       rememberMe = _useState6[0],
       updateRememberMe = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      errors = _useState8[0],
+      updateErrors = _useState8[1];
+
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     axios.get('/airlock/csrf-cookie').then(function (response) {
       axios.post('/login', {
         email: email,
-        password: password
+        password: password,
+        rememberMe: rememberMe
       }, {
         headers: {
           'Content-Type': 'application/json'
         }
       }).then(function (res) {
-        return console.log("hi");
+        updateErrors([]);
+        props.logIn(true);
       })["catch"](function (err) {
-        console.error(err.response.data.errors);
+        updateErrors(err.response.data.errors.email);
       });
     });
   };
@@ -65810,10 +65819,7 @@ function Login() {
       return updateEmail(e.target.value);
     },
     autoFocus: true
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "invalid-feedback",
-    role: "alert"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Error")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: " row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-field col s6"
@@ -65833,7 +65839,13 @@ function Login() {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "invalid-feedback",
     role: "alert"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Error")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center mb-3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
+    className: "text-info "
+  }, errors && errors.map(function (error) {
+    return error;
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-check mx-auto"

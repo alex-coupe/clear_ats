@@ -16,7 +16,7 @@ function App() {
                         <div className="card-body">You are logged in!</div>
                     </div>
                 </div>
-            </div> : <Login /> }
+            </div> : <Login logIn={setLoggedIn}/> }
         </div>
         
     );

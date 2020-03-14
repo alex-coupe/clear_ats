@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
 
-export default function Login() {
+export default function Login(props) {
     const [email, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
     const [rememberMe, updateRememberMe] = useState(false);
+    const [errors, updateErrors] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,10 +12,15 @@ export default function Login() {
            axios.post('/login', {
                email,
                password,
+               rememberMe
            },{
            headers: { 'Content-Type': 'application/json' }
-        }).then(res => console.log("hi")).catch(err => {
-            console.error(err.response.data.errors);
+        }).then(res => {
+            updateErrors([]);
+            props.logIn(true);
+        })
+        .catch(err => {
+            updateErrors(err.response.data.errors.email);
             });
         });
     }
@@ -33,9 +39,6 @@ export default function Login() {
                                                 <label htmlFor="email">Email Address</label>
                                                 <input id="email" type="email" className=" validate autocomplete" name="email" value={email} required 
                                                 autoComplete="email" onChange={(e) => updateEmail(e.target.value)} autoFocus />
-                                                <span className="invalid-feedback" role="alert" >
-                                                <strong>Error</strong>
-                                                </span>
                                             </div>
                                         </div>
                                         <div className=" row">
@@ -44,9 +47,11 @@ export default function Login() {
                                                 <input id="password" type="password" className="validate autocomplete" value={password} 
                                                 onChange={(e) => updatePassword(e.target.value)} name="password" required autoComplete="current-password" />
                                                 <span className="invalid-feedback" role="alert">
-                                                <strong>Error</strong>
                                                 </span>
                                             </div>
+                                        </div>
+                                        <div className="text-center mb-3">
+                                            <strong className="text-info ">{errors && errors.map((error) => error)}</strong>
                                         </div>
                                         <div className="row">
                                             <div className="form-check mx-auto">
@@ -56,6 +61,7 @@ export default function Login() {
                                                 </label>
                                             </div>
                                         </div>
+                                        
                                         <div className="row">
                                             <div className="mx-auto">
                                                 <button type="submit" className="btn waves-effect waves-light">
