@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
+import Login from './Login';
 
 function App() {
+    const [loggedIn, setLoggedIn] = useState(false);
     return (
-        <div className="container">
+       
+        <div>
+             {loggedIn ?
             <div className="row justify-content-center">
                 <div className="col-md-8">
                     <div className="card">
@@ -12,8 +16,9 @@ function App() {
                         <div className="card-body">You are logged in!</div>
                     </div>
                 </div>
-            </div>
+            </div> : <Login /> }
         </div>
+        
     );
 }
 
