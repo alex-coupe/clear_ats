@@ -65748,6 +65748,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Login; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -65770,32 +65776,82 @@ function Login(props) {
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      rememberMe = _useState6[0],
-      updateRememberMe = _useState6[1];
+      remember = _useState6[0],
+      updateRemember = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
       _useState8 = _slicedToArray(_useState7, 2),
       errors = _useState8[0],
       updateErrors = _useState8[1];
 
+  var emailRegex = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+  var handleBlur = function handleBlur(e) {
+    switch (e.target.name) {
+      case 'email':
+        emailRegex.test(e.target.value) ? updateErrors(_objectSpread({}, errors, {
+          email: ""
+        })) : updateErrors(_objectSpread({}, errors, {
+          email: "Invalid Email Address"
+        }));
+        break;
+
+      case 'password':
+        e.target.value.length > 0 && e.target.value.length < 6 ? updateErrors(_objectSpread({}, errors, {
+          password: "Password Must Be Minimum 6 Characters"
+        })) : updateErrors(_objectSpread({}, errors, {
+          password: ""
+        }));
+        break;
+
+      default:
+        break;
+    }
+  };
+
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    axios.get('/airlock/csrf-cookie').then(function (response) {
-      axios.post('/login', {
-        email: email,
-        password: password,
-        rememberMe: rememberMe
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (res) {
-        updateErrors([]);
-        props.logIn(true);
-      })["catch"](function (err) {
-        updateErrors(err.response.data.errors.email);
+
+    if (!emailRegex.test(email)) {
+      updateErrors(_objectSpread({}, errors, {
+        email: "Invalid Email Address"
+      }));
+    } else {
+      updateErrors(_objectSpread({}, errors, {
+        email: ""
+      }));
+    }
+
+    if (password.length < 6) {
+      updateErrors(_objectSpread({}, errors, {
+        password: "Invalid Password"
+      }));
+    } else {
+      updateErrors(_objectSpread({}, errors, {
+        password: ""
+      }));
+    }
+
+    if (errors.email === "" && errors.password === "") {
+      axios.get('/airlock/csrf-cookie').then(function (response) {
+        axios.post('/login', {
+          email: email,
+          password: password,
+          remember: remember
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(function (res) {
+          if (res.data.success) {
+            updateErrors([]);
+            props.logIn(true);
+          }
+        })["catch"](function (err) {
+          updateErrors(err.response.data);
+        });
       });
-    });
+    }
   };
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -65817,7 +65873,8 @@ function Login(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: function onSubmit(e) {
       return handleSubmit(e);
-    }
+    },
+    noValidate: true
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -65830,13 +65887,17 @@ function Login(props) {
     className: " validate autocomplete",
     name: "email",
     value: email,
-    required: true,
     autoComplete: "email",
+    onBlur: function onBlur(e) {
+      return handleBlur(e);
+    },
     onChange: function onChange(e) {
       return updateEmail(e.target.value);
     },
     autoFocus: true
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center text-warning"
+  }, " ", errors.email))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: " row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-field col s6"
@@ -65844,25 +65905,25 @@ function Login(props) {
     htmlFor: "password"
   }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     id: "password",
+    minLength: "6",
     type: "password",
     className: "validate autocomplete",
     value: password,
     onChange: function onChange(e) {
       return updatePassword(e.target.value);
     },
+    onBlur: function onBlur(e) {
+      return handleBlur(e);
+    },
     name: "password",
-    required: true,
     autoComplete: "current-password"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "invalid-feedback",
-    role: "alert"
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center text-warning"
+  }, " ", errors.password))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-center mb-3"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
-    className: "text-info "
-  }, errors && errors.map(function (error) {
-    return error;
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-warning "
+  }, errors.message)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-check mx-auto"
@@ -65874,9 +65935,9 @@ function Login(props) {
     name: "remember",
     id: "remember",
     onClick: function onClick() {
-      return updateRememberMe(!rememberMe);
+      return updateRemember(!remember);
     },
-    value: rememberMe
+    value: remember
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Remember Me")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
