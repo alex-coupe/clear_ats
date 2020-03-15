@@ -65789,7 +65789,7 @@ function Login(props) {
   var handleBlur = function handleBlur(e) {
     switch (e.target.name) {
       case 'email':
-        emailRegex.test(e.target.value) ? updateErrors(_objectSpread({}, errors, {
+        e.target.value.length == 0 || emailRegex.test(e.target.value) ? updateErrors(_objectSpread({}, errors, {
           email: ""
         })) : updateErrors(_objectSpread({}, errors, {
           email: "Invalid Email Address"

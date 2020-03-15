@@ -10,7 +10,7 @@ export default function Login(props) {
     const handleBlur = (e) => {
         switch(e.target.name){
             case 'email':
-                emailRegex.test(e.target.value) ? updateErrors({...errors, email: ""}) : 
+                e.target.value.length == 0 || emailRegex.test(e.target.value) ? updateErrors({...errors, email: ""}) : 
                 updateErrors({...errors, email: "Invalid Email Address"});
             break;
             case 'password':
