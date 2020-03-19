@@ -38,7 +38,7 @@ class LocationsController extends Controller
      */
     public function show($id)
     {
-        //
+        return new LocationResource(Location::where('id',$id)->firstOrFail());
     }
 
     /**
