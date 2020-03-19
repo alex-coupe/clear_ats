@@ -24,3 +24,4 @@ Route::middleware('auth:airlock')->delete('/user/{id}', 'UsersController@destroy
 //Locations
 Route::middleware('auth:airlock')->get('/locations', 'LocationsController@index');
 Route::middleware('auth:airlock')->get('/location/{id}', 'LocationsController@show');
+Route::middleware('auth:airlock')->delete('/location/{id}', 'LocationsController@destroy');

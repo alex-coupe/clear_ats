@@ -61,6 +61,8 @@ class LocationsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $location = Location::findOrFail($id);
+        $result = $location->delete();
+        return response()->json(["success" => $result]);
     }
 }
