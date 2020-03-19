@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\LocationCollection;
+use App\Http\Resources\LocationResource;
+use App\Location;
 
 class LocationsController extends Controller
 {
