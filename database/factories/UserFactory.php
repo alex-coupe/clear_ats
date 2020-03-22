@@ -29,7 +29,6 @@ $factory->define(User::class, function (Faker $faker) {
         'location_id' => $faker->numberBetween(0,5),
         'job_title' => $faker->jobTitle,
         'mobile' => $faker->e164PhoneNumber,
-        'dob' => $faker->date,
-        'organisation_id' => 1,
+        'dob' => $faker->date
     ];
 });
