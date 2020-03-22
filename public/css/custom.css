@@ -1,0 +1,25 @@
+body {
+    color: #EFF6E0;
+}
+
+input, select, textarea{
+  color: #EFF6E0;
+}
+
+a {
+    color: #EFF6E0;
+    text-decoration: none;
+    background-color: transparent;
+  }
+  
+  a:hover {
+    color: #353531;
+    text-decoration: underline;
+  }
+
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #6B6570 inset!important;
+    box-shadow:  0 0 0px 1000px #6B6570 inset!important;
+    -webkit-text-fill-color: #EFF6E0;
+  }
+  

@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Laravel\Airlock\Airlock;
 use App\User;
 
-class UsersTestController extends TestCase
+class UsersControllerTest extends TestCase
 {
     use RefreshDatabase;
     
