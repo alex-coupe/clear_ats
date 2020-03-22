@@ -18,12 +18,33 @@ class AuthorisationTest extends TestCase
     use RefreshDatabase;
     use MatchesSnapshots;
 
-  
+     /**
+     *
+     * @test
+     */
+    public function User_Should_See_Login_Page_When_Not_Logged_In()
+    {
+        $response = $this->get('/');
+        $response->assertRedirect('/login');
+        $response->assertStatus(302);
+    }
+    
+    /**
+     *
+     * @test
+     */
+    public function User_Should_Be_Redirected_To_Login_When_Not_Authorised()
+    {
+        $response = $this->get('/dashboard');
+        $response->assertRedirect('/login');
+        $response->assertStatus(302);
+    }
+
     /**
      * 
      * @test
      */
-    public function Login_Allows_Request_With_Correct_Credentials()
+    public function Authenticated_Users_Can_See_Dashboard_When_LoggedIn()
     {
         $user = factory(User::class)->create([
         'password' => bcrypt($password = 'test123'),
@@ -34,6 +55,7 @@ class AuthorisationTest extends TestCase
             'password' => $password,
         ]);
 
+        $response->assertRedirect('/dashboard');
         $this->assertAuthenticatedAs($user);
     }
 
@@ -52,6 +74,10 @@ class AuthorisationTest extends TestCase
             'password' => 'invalid-password',
         ]);
         
+        $response->assertRedirect('/login');
+        $response->assertSessionHasErrors('email');
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
         $this->assertInvalidCredentials(['email' => $user->email,
         'password' => 'invalid-password',] );
         $this->assertGuest();
@@ -74,6 +100,7 @@ class AuthorisationTest extends TestCase
             'remember' => 'on',
         ]);
         
+        $response->assertRedirect('/dashboard');
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
             $user->id,
             $user->getRememberToken(),
@@ -133,9 +160,21 @@ class AuthorisationTest extends TestCase
      */
     public function Login_Snapshot_Test()
     {
-        $view = 'resources\views\dashboard.blade.php';
+        $view = 'resources\views\auth\login.blade.php';
 
         $this->assertMatchesFileSnapshot($view);
     }
 
+     /**
+     *
+     * @test
+     */
+    public function Redirect_To_Dashboard_When_Loggedin()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $response = $this->get('/login');
+        $response->assertRedirect('/dashboard');
+        $response->assertStatus(302);
+    }
 }

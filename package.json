@@ -29,7 +29,6 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "js-cookie": "^2.2.1",
         "materialize-css": "^1.0.0-rc.2"
     }
 }
