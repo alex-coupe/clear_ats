@@ -7,6 +7,7 @@ use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Location;
 use App\Http\Requests\StoreLocation;
+use App\Http\Requests\UpdateLocation;
 
 class LocationsController extends Controller
 {
@@ -46,13 +47,15 @@ class LocationsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UpdateLocation  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateLocation $request, $id)
     {
-        //
+        $location = Location::findOrFail($id);
+        $location->update($request->validated());
+        return $location;
     }
 
     /**

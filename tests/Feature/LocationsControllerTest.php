@@ -287,6 +287,58 @@ class LocationsControllerTest extends TestCase
         $response->assertStatus(401);
     }
 
+    /**
+     *
+     * @test
+     */
+    public function Put_Location_Updates_DB_Entry()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        factory(Location::class)->create();
+
+        $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
+        
+        $response->assertJson([
+            'name' => 'updated name',
+        ]);
+        $response->assertStatus(200);
+    }
+
+      /**
+     *
+     * @test
+     */
+    public function Put_Unknown_Location_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
+        $response->assertStatus(404);
+    }
+
+      /**
+     *
+     * @test
+     */
+    public function Put_Fails_If_Unauthorised()
+    {
+        $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
+        $response->assertJson([
+            'message' => "Unauthenticated.",
+        ]);
+        $response->assertStatus(401);
+
+    }
+
+
+
      /**
      *
      * @test
