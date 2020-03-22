@@ -27,3 +27,6 @@ Route::middleware('auth:airlock')->get('/location/{id}', 'LocationsController@sh
 Route::middleware('auth:airlock')->post('/locations', 'LocationsController@store');
 Route::middleware('auth:airlock')->put('/location/{id}', 'LocationsController@update');
 Route::middleware('auth:airlock')->delete('/location/{id}', 'LocationsController@destroy');
+
+//Brands
+Route::middleware('auth:airlock')->get('/brands', 'BrandsController@index');
