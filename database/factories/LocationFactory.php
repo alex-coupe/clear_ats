@@ -11,7 +11,7 @@ $factory->define(Location::class, function (Faker $faker) {
         'address_one' => $faker->streetAddress,
         'address_two' => $faker->secondaryAddress,
         'city' => $faker->city,
-        'state' => $faker->state,
+        'state' => $faker->county,
         'post_code' => $faker->postcode
     ];
 });

@@ -108,12 +108,184 @@ class LocationsControllerTest extends TestCase
          'address_three' => $location->address_three,
          'city' => $location->city,
          'state' => $location->state,
-         'post_code' => 'CT14 0LT',
+         'post_code' => $location->post_code,
          ]);
         
          $response->assertJsonCount(10);
          $response->assertStatus(201);
      }
+
+      /**
+     *
+     * @test
+     */
+    public function Missing_Name_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $location = factory(Location::class)->create();
+       
+        $response = $this->json('POST','/api/locations', [
+        'address_one' => $location->address_one,  'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'city' => $location->city,
+        'state' => $location->state,
+        'post_code' => $location->post_code,
+        ]);
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+      /**
+     *
+     * @test
+     */
+    public function Missing_Address_Line_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $location = factory(Location::class)->create();
+       
+        $response = $this->json('POST','/api/locations', ['name' => $location->name,
+        'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'city' => $location->city,
+        'state' => $location->state,
+        'post_code' => $location->post_code,
+        ]);
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Missing_City_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $location = factory(Location::class)->create();
+       
+        $response = $this->json('POST','/api/locations', ['name' => $location->name,
+        'address_one' => $location->address_one,
+        'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'state' => $location->state,
+        'post_code' => $location->post_code,
+        ]);
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Missing_State_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $location = factory(Location::class)->create();
+       
+        $response = $this->json('POST','/api/locations', ['name' => $location->name,
+        'address_one' => $location->address_one,
+        'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'city' => $location->city,
+        'post_code' => $location->post_code,
+        ]);
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Missing_Post_Code_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $location = factory(Location::class)->create();
+       
+        $response = $this->json('POST','/api/locations', ['name' => $location->name,
+        'address_one' => $location->address_one,
+        'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'city' => $location->city,
+        'state' => $location->state,
+        ]);
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Erroneous_Post_Code_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $location = factory(Location::class)->create();
+       
+        $response = $this->json('POST','/api/locations', ['name' => $location->name,
+        'address_one' => $location->address_one,
+        'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'city' => $location->city,
+        'state' => $location->state,
+        'post_code' => 'CTAA1AA'
+        ]);
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+
+      /**
+     *
+     * @test
+     */
+    public function Unauth_Post_Gives_Errors()
+    {
+        $location = factory(Location::class)->create();
+        
+        $response = $this->json('POST','/api/locations', ['name' => $location->name,
+        'address_one' => $location->address_one,  'address_two' => $location->address_two,
+        'address_three' => $location->address_three,
+        'city' => $location->city,
+        'state' => $location->state,
+        'post_code' => $location->post_code,
+        ]);
+       
+        $response->assertJsonCount(1);
+        $response->assertStatus(401);
+    }
 
      /**
      *
