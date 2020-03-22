@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Location;
+use App\Http\Requests\StoreLocation;
 
 class LocationsController extends Controller
 {
@@ -22,12 +23,13 @@ class LocationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreLocation  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreLocation $request)
     {
-        //
+        $location = Location::create($request->validated());
+        return $location;
     }
 
     /**
