@@ -38,7 +38,7 @@ class BrandsController extends Controller
      */
     public function show($id)
     {
-        //
+        return new BrandResource(Brand::where('id',$id)->firstOrFail());
     }
 
     /**

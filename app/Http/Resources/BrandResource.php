@@ -19,7 +19,7 @@ class BrandResource extends JsonResource
             return [
                     "id" => $this->id,
                     'brand_name' => $this->company,
-                    'location_id' => $this->numberBetween(0,5),
+                    'location_id' => $this->location_id,
                     'telephone' => $this->phoneNumber,
                     'email' => $this->safeEmail,
                     'website' => $this->url
