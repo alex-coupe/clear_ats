@@ -77,7 +77,7 @@ class BrandsControllerTest extends TestCase
          $response->assertStatus(401);
      }
 
-      /**
+     /**
      *
      * @test
      */
@@ -123,4 +123,174 @@ class BrandsControllerTest extends TestCase
         $response->assertJsonCount(2);
         $response->assertStatus(422);
     }
+
+     /**
+     *
+     * @test
+     */
+    public function Missing_Location_Id_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+       
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+         'telephone' => $brand->telephone,
+        'email' => $brand->email,
+        'website' => $brand->website,
+       
+        ]); 
+       
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Missing_Telephone_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+       
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+        'location_id' => $brand->location_id,  
+        'email' => $brand->email,
+        'website' => $brand->website,
+       
+        ]); 
+       
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Missing_Email_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+       
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+        'location_id' => $brand->location_id,  
+        'telephone' => $brand->telephone,
+        'website' => $brand->website,
+       
+        ]); 
+       
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Missing_Url_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+       
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+        'location_id' => $brand->location_id,  
+        'email' => $brand->email,
+        'telephone' => $brand->telephone,
+       
+        ]); 
+       
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Erroneous_Telephone_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+        
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+        'location_id' => $brand->location_id,  'telephone' => '01125',
+        'email' => $brand->email,
+        'website' => $brand->website,
+       
+        ]); 
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Erroneous_Email_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+        
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+        'location_id' => $brand->location_id,  'telephone' => $brand->telephone,
+        'email' => 'bla.g',
+        'website' => $brand->website,
+       
+        ]); 
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Erroneous_Url_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        $brand = factory(brand::class)->create();
+        
+        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
+        'location_id' => $brand->location_id,  'telephone' => $brand->telephone,
+        'email' => $brand->email,
+        'website' => 'not today',
+       
+        ]); 
+
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+
 }
