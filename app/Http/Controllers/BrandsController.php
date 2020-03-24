@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\BrandCollection;
 use App\Http\Resources\BrandResource;
+use App\Http\Requests\StoreBrand;
 use App\Brand;
 
 class BrandsController extends Controller
@@ -22,12 +23,13 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreBrand  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBrand $request)
     {
-        //
+        $brand = Brand::create($request->validated());
+        return $brand;
     }
 
     /**
