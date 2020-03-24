@@ -63,6 +63,8 @@ class BrandsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+        $result = $brand->delete();
+        return response()->json(["success" => $result]);
     }
 }

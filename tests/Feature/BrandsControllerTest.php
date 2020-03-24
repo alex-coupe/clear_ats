@@ -293,4 +293,57 @@ class BrandsControllerTest extends TestCase
     }
 
 
+     /**
+     *
+     * @test
+     */
+    public function Delete_Brand_Removes_Db_Entry()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        factory(Brand::class)->create();
+
+        $response = $this->json('DELETE','/api/brand/1');
+        $response->assertJson([
+            'success' => 1,
+        ]);
+        $response->assertStatus(200);
+
+    }
+
+     /**
+     *
+     * @test
+     */
+    public function Delete_Unknown_Brand_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        $response = $this->json('DELETE','/api/brand/1');
+        $response->assertStatus(404);
+
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function Delete_Fails_If_Unauthorised()
+    {
+        $response = $this->json('DELETE','/api/brand/1');
+        $response->assertJson([
+            'message' => "Unauthenticated.",
+        ]);
+        $response->assertStatus(401);
+
+    }
+
+
+
 }
