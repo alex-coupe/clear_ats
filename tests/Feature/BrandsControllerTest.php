@@ -313,6 +313,35 @@ class BrandsControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+     /**
+     *
+     * @test
+     */
+    public function Put_Unknown_Brand_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
+        $response->assertStatus(404);
+    }
+
+      /**
+     *
+     * @test
+     */
+    public function Put_Brand_Fails_If_Unauthorised()
+    {
+        $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
+        $response->assertJson([
+            'message' => "Unauthenticated.",
+        ]);
+        $response->assertStatus(401);
+
+    }
+
 
 
      /**
