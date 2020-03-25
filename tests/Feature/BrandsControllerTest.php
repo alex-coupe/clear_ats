@@ -323,7 +323,7 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['*']
         );
-
+    
         $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
         $response->assertStatus(404);
     }

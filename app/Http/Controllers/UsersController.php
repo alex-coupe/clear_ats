@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\User;
+use App\Permission;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Support\Facades\DB;
+
 class UsersController extends Controller
 {
     /**
@@ -17,6 +20,10 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        $user = User::where('id',auth()->user()->id)->firstOrFail();
+       
+        $permissions = User::GetPermissions();
+        dd($permissions);
         return new UserCollection(User::all());
     }
 
@@ -40,7 +47,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return new UserResource(User::where('id',$id)->firstOrFail());
+        return new UserResource(User::where('id',$id)->with('roles.permissions')->firstOrFail());
     }
 
     /**

@@ -7,6 +7,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Laravel\Airlock\Airlock;
 use App\User;
+use App\Permission;
+use App\Role;
+use Illuminate\Support\Facades\DB;
 
 class UsersControllerTest extends TestCase
 {
@@ -22,6 +25,14 @@ class UsersControllerTest extends TestCase
             factory(User::class)->create(),
             ['index']
         );
+        factory(Permission::class)->create();
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $response = $this->json('GET','/api/users');
        
         $response->assertJsonCount(1);
