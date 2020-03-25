@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BrandCollection;
 use App\Http\Resources\BrandResource;
 use App\Http\Requests\StoreBrand;
+use App\Http\Requests\UpdateBrand;
 use App\Brand;
 
 class BrandsController extends Controller
@@ -46,13 +47,15 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request\UpdateBrand  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBrand $request, $id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+        $brand->update($request->validated());
+        return $brand;
     }
 
     /**

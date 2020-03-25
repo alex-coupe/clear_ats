@@ -292,6 +292,28 @@ class BrandsControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     *
+     * @test
+     */
+    public function Put_Brand_Updates_DB_Entry()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['*']
+        );
+
+        factory(Brand::class)->create();
+
+        $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
+        
+        $response->assertJson([
+            'brand_name' => 'updated name',
+        ]);
+        $response->assertStatus(200);
+    }
+
+
 
      /**
      *
@@ -343,7 +365,5 @@ class BrandsControllerTest extends TestCase
         $response->assertStatus(401);
 
     }
-
-
 
 }
