@@ -19,12 +19,15 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $user = User::where('id',auth()->user()->id)->firstOrFail();
-       
+    {      
         $permissions = User::GetPermissions();
-        dd($permissions);
-        return new UserCollection(User::all());
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Access To All Users")
+            {
+                return new UserCollection(User::all());
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);        
     }
 
     /**
@@ -35,8 +38,15 @@ class UsersController extends Controller
      */
     public function store(StoreUser $request)
     {
-        $user = User::create($request->validated());
-        return $user;
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Create New User")
+            {
+                $user = User::create($request->validated());
+                return $user;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401); 
     }
 
     /**
@@ -47,7 +57,14 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return new UserResource(User::where('id',$id)->with('roles.permissions')->firstOrFail());
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Access To User")
+            {
+                return new UserResource(User::where('id',$id)->with('permissions')->firstOrFail());
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);
     }
 
     /**
@@ -59,9 +76,16 @@ class UsersController extends Controller
      */
     public function update(UpdateUser $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->update($request->validated());
-        return $user;
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Update User")
+            {
+                $user = User::findOrFail($id);
+                $user->update($request->validated());
+                return $user;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);
     }
 
     /**
@@ -72,8 +96,15 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $result = $user->delete();
-        return response()->json(["success" => $result]);
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Update User")
+            {
+                $user = User::findOrFail($id);
+                $result = $user->delete();
+                return response()->json(["success" => $result]);
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);
     }
 }

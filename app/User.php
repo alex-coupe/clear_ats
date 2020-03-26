@@ -48,9 +48,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Location', 'id', 'location_id');
     }
 
-    public function role()
+    public function permissions()
     {
-        return $this->hasOne('App\Role', 'id', 'role_id');
+        return $this->hasMany('App\Permission');
     }
 
     public static function GetPermissions()
