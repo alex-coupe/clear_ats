@@ -58,10 +58,12 @@ class UsersController extends Controller
     public function show($id)
     {
         $permissions = User::GetPermissions();
-        foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To User")
-            {
-                return new UserResource(User::where('id',$id)->with('permissions')->firstOrFail());
+        if ($permissions) {
+            foreach($permissions as $permission) {
+                if ($permission->description == "Allow Access To User")
+                {
+                    return new UserResource(User::where('id',$id)->firstOrFail());
+                }
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);
@@ -98,7 +100,7 @@ class UsersController extends Controller
     {
         $permissions = User::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Update User")
+            if ($permission->description == "Allow Delete User")
             {
                 $user = User::findOrFail($id);
                 $result = $user->delete();

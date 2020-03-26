@@ -10,10 +10,12 @@ use App\User;
 use App\Permission;
 use App\Role;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UsersControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
     
     /**
      *
@@ -25,14 +27,16 @@ class UsersControllerTest extends TestCase
             factory(User::class)->create(),
             ['index']
         );
-        factory(Permission::class)->create();
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To All Users',
+            'active' => true
+        ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
              'role_id' => 1, 
            ]);
-
         $response = $this->json('GET','/api/users');
        
         $response->assertJsonCount(1);
@@ -46,9 +50,24 @@ class UsersControllerTest extends TestCase
     public function Get_User_By_ID_Returns_User()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['role_id' => 1]),
             ['show']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+
+      
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+              
         $response = $this->json('GET','/api/user/1');
        
         $response->assertJsonCount(1);
@@ -65,6 +84,18 @@ class UsersControllerTest extends TestCase
             factory(User::class)->create(),
             ['show']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
         $response = $this->json('GET','/api/user/2');
        
         $response->assertStatus(404);
@@ -79,7 +110,7 @@ class UsersControllerTest extends TestCase
         $response = $this->json('GET','/api/user/2');
        
         $response->assertJson([
-            'message' => "Unauthenticated.",
+            'error' => "Not Authorised.",
         ]);
         $response->assertStatus(401);
     }
@@ -95,6 +126,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         "last_name" => $user->last_name,  'email' => 'unique@unique.com',
@@ -105,10 +148,11 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
        
-        $response->assertJsonCount(12);
+        $response->assertJsonCount(13);
         $response->assertStatus(201);
     }
 
@@ -123,6 +167,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', [
         "last_name" => $user->last_name,  'email' => 'unique@unique.com',
@@ -133,7 +189,8 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -152,6 +209,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'email' => 'unique@unique.com',
@@ -162,7 +231,8 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -181,6 +251,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -191,7 +273,8 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -210,6 +293,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -220,7 +315,8 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -239,6 +335,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -249,7 +357,8 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -268,6 +377,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -278,13 +399,58 @@ class UsersControllerTest extends TestCase
         'telephone' => $user->telephone,
         'job_title' => $user->job_title,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
         $response->assertJsonCount(2);
         $response->assertStatus(422);
     }
+
+     /**
+     *
+     * @test
+     */
+    public function Post_User_Missing_Role_Id_Gives_Error()
+    {
+        Airlock::actingAs(
+            factory(User::class)->create(),
+            ['store']
+        );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
+        $user = factory(User::class)->create();
+        $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
+        'last_name' => $user->last_name,
+        "email" => $user->email,
+        'email_verified_at' => $user->email_verified_at,
+        'remember_token' => $user->remember_token,
+        'password' => $user->password,
+        'telephone' => $user->telephone,
+        'job_title' => $user->job_title,
+        'mobile' => $user->mobile,
+        'dob' => $user->dob,
+       
+        ]);
+        
+        //Json contains message and errors
+        $response->assertJsonCount(2);
+        $response->assertStatus(422);
+    }
+
+
 
     /**
      *
@@ -297,6 +463,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -307,7 +485,8 @@ class UsersControllerTest extends TestCase
         'telephone' => $user->telephone,
         'location_id' => $user->location_id,
         'mobile' => $user->mobile,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -326,6 +505,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -336,7 +527,8 @@ class UsersControllerTest extends TestCase
         'telephone' => $user->telephone,
         'location_id' => $user->location_id,
         'job_title' => $user->job_title,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -355,6 +547,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -365,7 +569,8 @@ class UsersControllerTest extends TestCase
         'telephone' => $user->telephone,
         'location_id' => $user->location_id,
         'mobile' => $user->job_title,
-        'job_title' => $user->job_title
+        'job_title' => $user->job_title,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -384,6 +589,18 @@ class UsersControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         'last_name' => $user->last_name,
@@ -395,7 +612,8 @@ class UsersControllerTest extends TestCase
         'location_id' => $user->location_id,
         'mobile' => $user->job_title,
         'job_title' => $user->job_title,
-        'dob' => $user->dob
+        'dob' => $user->dob,
+        'role_id' => $user->role_id
         ]);
         
         //Json contains message and errors
@@ -413,6 +631,18 @@ class UsersControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
 
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
@@ -443,6 +673,18 @@ class UsersControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create New User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
 
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
@@ -511,6 +753,18 @@ class UsersControllerTest extends TestCase
             ['*']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Update User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $user = factory(User::class)->create();
         $response = $this->json('POST','/api/users', ["first_name" => $user->first_name,
         "last_name" => $user->last_name,  'email' => 'unique@unique.com',
@@ -544,6 +798,18 @@ class UsersControllerTest extends TestCase
             ['*']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Update User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $response = $this->json('PUT','/api/user/2', ["first_name" => 'updated name']);
         $response->assertStatus(404);
     }
@@ -573,6 +839,18 @@ class UsersControllerTest extends TestCase
             ['*']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Delete User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
+
         $response = $this->json('DELETE','/api/user/1');
         $response->assertJson([
             'success' => 1,
@@ -591,6 +869,18 @@ class UsersControllerTest extends TestCase
             factory(User::class)->create(),
             ['*']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Delete User',
+            'active' => true
+        ]);
+
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+        [
+            'permission_id' => 1, 
+            'role_id' => 1, 
+        ]);
 
         $response = $this->json('DELETE','/api/user/2');
         $response->assertStatus(404);

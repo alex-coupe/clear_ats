@@ -26,7 +26,8 @@ class StoreUser extends FormRequest
             'location_id' => 'required|integer',
             'job_title' => 'required|string',
             'mobile' => 'required|string',
-            'dob' => 'required|date'
+            'dob' => 'required|date',
+            'role_id' => 'required|integer'
         ];
     }
 }

@@ -48,16 +48,18 @@ class User extends Authenticatable
         return $this->hasOne('App\Location', 'id', 'location_id');
     }
 
-    public function permissions()
+    public function role()
     {
-        return $this->hasMany('App\Permission');
+        return $this->hasOne('App\Role', 'id', 'role_id');
     }
 
     public static function GetPermissions()
     {
-        return Permission::whereHas('roles', function($query) {
-            $query->where('roles.id', auth()->user()->role_id);
-        })->get();
+        if (auth()->user()) {
+            return Permission::whereHas('roles', function($query) {
+                $query->where('roles.id', auth()->user()->role_id);
+            })->get();
+        }
     }
 
     
