@@ -24,7 +24,6 @@ class LocationsControllerTest extends TestCase
      */
     public function Get_Locations_Returns_Locations_Collection()
     {
-        $this->withoutExceptionHandling();
         Airlock::actingAs(
             factory(User::class)->create(),
             ['index']
@@ -57,6 +56,18 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['show']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To Specific Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         factory(Location::class)->create();
 
         $response = $this->json('GET','/api/location/1');
@@ -74,6 +85,18 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['show']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To Specific Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $response = $this->json('GET','/api/location/1');
        
         $response->assertStatus(404);
@@ -117,6 +140,17 @@ class LocationsControllerTest extends TestCase
              factory(User::class)->create(),
              ['store']
          );
+
+         factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
  
          $location = factory(Location::class)->create();
         
@@ -143,6 +177,17 @@ class LocationsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $location = factory(Location::class)->create();
        
         $response = $this->json('POST','/api/locations', [
@@ -167,6 +212,17 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $location = factory(Location::class)->create();
        
@@ -193,6 +249,17 @@ class LocationsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $location = factory(Location::class)->create();
        
         $response = $this->json('POST','/api/locations', ['name' => $location->name,
@@ -217,6 +284,17 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $location = factory(Location::class)->create();
        
@@ -243,6 +321,17 @@ class LocationsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $location = factory(Location::class)->create();
        
         $response = $this->json('POST','/api/locations', ['name' => $location->name,
@@ -267,6 +356,17 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $location = factory(Location::class)->create();
        
@@ -310,10 +410,23 @@ class LocationsControllerTest extends TestCase
      */
     public function Put_Location_Updates_DB_Entry()
     {
+        $this->withoutExceptionHandling();
         Airlock::actingAs(
             factory(User::class)->create(),
             ['*']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Edit Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
 
         factory(Location::class)->create();
 
@@ -336,6 +449,18 @@ class LocationsControllerTest extends TestCase
             ['*']
         );
 
+        
+        factory(Permission::class)->create([
+            'description' => 'Allow Edit Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
         $response->assertStatus(404);
     }
@@ -355,7 +480,6 @@ class LocationsControllerTest extends TestCase
     }
 
 
-
      /**
      *
      * @test
@@ -366,6 +490,18 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['*']
         );
+
+        
+        factory(Permission::class)->create([
+            'description' => 'Allow Delete Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         factory(Location::class)->create();
 
@@ -387,6 +523,18 @@ class LocationsControllerTest extends TestCase
             factory(User::class)->create(),
             ['*']
         );
+
+        
+        factory(Permission::class)->create([
+            'description' => 'Allow Delete Location',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $response = $this->json('DELETE','/api/location/1');
         $response->assertStatus(404);

@@ -37,8 +37,16 @@ class LocationsController extends Controller
      */
     public function store(StoreLocation $request)
     {
-        $location = Location::create($request->validated());
-        return $location;
+        
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Create Location")
+            {
+                $location = Location::create($request->validated());
+                return $location;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);     
     }
 
     /**
@@ -49,7 +57,14 @@ class LocationsController extends Controller
      */
     public function show($id)
     {
-        return new LocationResource(Location::where('id',$id)->firstOrFail());
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Access To Specific Location")
+            {
+                return new LocationResource(Location::where('id',$id)->firstOrFail());
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);     
     }
 
     /**
@@ -61,9 +76,16 @@ class LocationsController extends Controller
      */
     public function update(UpdateLocation $request, $id)
     {
-        $location = Location::findOrFail($id);
-        $location->update($request->validated());
-        return $location;
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Edit Location")
+            {
+                $location = Location::findOrFail($id);
+                $location->update($request->validated());
+                return $location;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);     
     }
 
     /**
@@ -74,8 +96,15 @@ class LocationsController extends Controller
      */
     public function destroy($id)
     {
-        $location = Location::findOrFail($id);
-        $result = $location->delete();
-        return response()->json(["success" => $result]);
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Delete Location")
+            {
+                $location = Location::findOrFail($id);
+                $result = $location->delete();
+                return response()->json(["success" => $result]);
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);    
     }
 }
