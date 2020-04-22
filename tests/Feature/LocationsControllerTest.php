@@ -8,10 +8,15 @@ use Tests\TestCase;
 use Laravel\Airlock\Airlock;
 use App\User;
 use App\Location;
+use App\Permission;
+use App\Role;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LocationsControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
     
     /**
      *
@@ -19,10 +24,22 @@ class LocationsControllerTest extends TestCase
      */
     public function Get_Locations_Returns_Locations_Collection()
     {
+        $this->withoutExceptionHandling();
         Airlock::actingAs(
             factory(User::class)->create(),
             ['index']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To All Locations',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $response = $this->json('GET','/api/locations');
        

@@ -8,6 +8,7 @@ use App\Http\Resources\LocationResource;
 use App\Location;
 use App\Http\Requests\StoreLocation;
 use App\Http\Requests\UpdateLocation;
+use App\User;
 
 class LocationsController extends Controller
 {
@@ -18,7 +19,14 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        return new LocationCollection(Location::all());
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Access To All Locations")
+            {
+                return new LocationCollection(Location::all());
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);        
     }
 
     /**
