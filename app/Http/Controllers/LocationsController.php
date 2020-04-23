@@ -96,7 +96,7 @@ class LocationsController extends Controller
      */
     public function destroy($id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = User::GetPermissions(); 
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Delete Location")
             {

@@ -8,6 +8,11 @@ use Tests\TestCase;
 use App\Brand;
 use Laravel\Airlock\Airlock;
 use App\User;
+use App\Permission;
+use App\Role;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BrandsControllerTest extends TestCase
 {
@@ -23,6 +28,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['index']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To All Brands',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $response = $this->json('GET','/api/brands');
        
@@ -54,6 +70,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['show']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Access To Specific Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         factory(Brand::class)->create();
 
@@ -87,6 +114,17 @@ class BrandsControllerTest extends TestCase
              factory(User::class)->create(),
              ['store']
          );
+
+         factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
  
          $brand = factory(brand::class)->create();
         
@@ -112,6 +150,17 @@ class BrandsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $brand = factory(brand::class)->create();
         
         $response = $this->json('POST','/api/brands', [
@@ -134,6 +183,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $brand = factory(brand::class)->create();
        
@@ -159,6 +219,17 @@ class BrandsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $brand = factory(brand::class)->create();
        
         $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
@@ -182,6 +253,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $brand = factory(brand::class)->create();
        
@@ -207,6 +289,17 @@ class BrandsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $brand = factory(brand::class)->create();
        
         $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
@@ -230,6 +323,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $brand = factory(brand::class)->create();
         
@@ -255,6 +359,17 @@ class BrandsControllerTest extends TestCase
             ['store']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         $brand = factory(brand::class)->create();
         
         $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
@@ -278,6 +393,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['store']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Create Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $brand = factory(brand::class)->create();
         
@@ -303,6 +429,17 @@ class BrandsControllerTest extends TestCase
             ['*']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Edit Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         factory(Brand::class)->create();
 
         $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
@@ -323,6 +460,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['*']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Edit Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
     
         $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
         $response->assertStatus(404);
@@ -355,6 +503,17 @@ class BrandsControllerTest extends TestCase
             ['*']
         );
 
+        factory(Permission::class)->create([
+            'description' => 'Allow Delete Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
+
         factory(Brand::class)->create();
 
         $response = $this->json('DELETE','/api/brand/1');
@@ -375,6 +534,17 @@ class BrandsControllerTest extends TestCase
             factory(User::class)->create(),
             ['*']
         );
+
+        factory(Permission::class)->create([
+            'description' => 'Allow Delete Brand',
+            'active' => true
+        ]);
+        factory(Role::class)->create();
+        DB::table('role_permissions')->insert(
+            [
+             'permission_id' => 1, 
+             'role_id' => 1, 
+           ]);
 
         $response = $this->json('DELETE','/api/brand/1');
         $response->assertStatus(404);

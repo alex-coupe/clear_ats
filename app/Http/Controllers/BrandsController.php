@@ -8,6 +8,7 @@ use App\Http\Resources\BrandResource;
 use App\Http\Requests\StoreBrand;
 use App\Http\Requests\UpdateBrand;
 use App\Brand;
+use App\User;
 
 class BrandsController extends Controller
 {
@@ -18,7 +19,14 @@ class BrandsController extends Controller
      */
     public function index()
     {
-        return new BrandCollection(Brand::all());
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Access To All Brands")
+            {
+                return new BrandCollection(Brand::all());
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);  
     }
 
     /**
@@ -29,8 +37,15 @@ class BrandsController extends Controller
      */
     public function store(StoreBrand $request)
     {
-        $brand = Brand::create($request->validated());
-        return $brand;
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Create Brand")
+            {
+                $brand = Brand::create($request->validated());
+                return $brand;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401); 
     }
 
     /**
@@ -41,7 +56,14 @@ class BrandsController extends Controller
      */
     public function show($id)
     {
-        return new BrandResource(Brand::where('id',$id)->firstOrFail());
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Access To Specific Brand")
+            {
+                return new BrandResource(Brand::where('id',$id)->firstOrFail());
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401); 
     }
 
     /**
@@ -53,9 +75,16 @@ class BrandsController extends Controller
      */
     public function update(UpdateBrand $request, $id)
     {
-        $brand = Brand::findOrFail($id);
-        $brand->update($request->validated());
-        return $brand;
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Edit Brand")
+            {
+                $brand = Brand::findOrFail($id);
+                $brand->update($request->validated());
+                return $brand;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401); 
     }
 
     /**
@@ -66,8 +95,15 @@ class BrandsController extends Controller
      */
     public function destroy($id)
     {
-        $brand = Brand::findOrFail($id);
-        $result = $brand->delete();
-        return response()->json(["success" => $result]);
+        $permissions = User::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Delete Brand")
+            {
+                $brand = Brand::findOrFail($id);
+                $result = $brand->delete();
+                return response()->json(["success" => $result]);
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401); 
     }
 }
