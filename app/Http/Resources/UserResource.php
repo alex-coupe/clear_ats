@@ -27,7 +27,7 @@ class UserResource extends JsonResource
                     "mobile" => $this->mobile,
                     "dob" => $this->dob,
                     "location" => $this->location,
-                    "roles" => $this->roles,
+                    "permissions" => $this->permissions,
                     "brands" => $this->brands
             ];
         }

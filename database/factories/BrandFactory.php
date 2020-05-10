@@ -9,7 +9,7 @@ $factory->define(Brand::class, function (Faker $faker) {
     return [
         'brand_name' => $faker->company,
         'location_id' => $faker->numberBetween(0,5),
-        'telephone' => $faker->phoneNumber,
+        'telephone' => '01304614719',
         'email' => $faker->safeEmail,
         'website' => $faker->url
     ];

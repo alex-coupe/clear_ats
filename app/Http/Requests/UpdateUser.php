@@ -24,7 +24,8 @@ class UpdateUser extends FormRequest
             'location_id' => 'integer',
             'job_title' => 'string',
             'mobile' => 'string',
-            'dob' => 'date'
+            'dob' => 'date',
+            'role_id' => 'integer'
         ];
     }
 }

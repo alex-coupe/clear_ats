@@ -15,10 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:airlock')->get('/users', 'UsersController@index');
-Route::middleware('auth:airlock')->get('/user/{id}', 'UsersController@show');
+Route::get('/user/{id}', 'UsersController@show');
 Route::middleware('auth:airlock')->post('/users', 'UsersController@store');
 Route::middleware('auth:airlock')->put('/user/{id}', 'UsersController@update');
 Route::middleware('auth:airlock')->delete('/user/{id}', 'UsersController@destroy');
 
 
+<<<<<<< HEAD
 //middleware('auth:airlock')->
+=======
+//Brands
+Route::middleware('auth:airlock')->get('/brands', 'BrandsController@index');
+Route::middleware('auth:airlock')->get('/brand/{id}', 'BrandsController@show');
+Route::middleware('auth:airlock')->post('/brands', 'BrandsController@store');
+Route::middleware('auth:airlock')->put('/brand/{id}', 'BrandsController@update');
+Route::middleware('auth:airlock')->delete('/brand/{id}', 'BrandsController@destroy');
+>>>>>>> development

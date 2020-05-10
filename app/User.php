@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Airlock\HasApiTokens;
+use App\Permission;
+
 
 class User extends Authenticatable
 {
@@ -41,13 +43,24 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Brand', 'brands_users', 'user_id', 'brand_id');
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
-    }
-
     public function location()
     {
         return $this->hasOne('App\Location', 'id', 'location_id');
     }
+
+    public function role()
+    {
+        return $this->hasOne('App\Role', 'id', 'role_id');
+    }
+
+    public static function GetPermissions()
+    {
+        if (auth()->user()) {
+            return Permission::whereHas('roles', function($query) {
+                $query->where('roles.id', auth()->user()->role_id);
+            })->get();
+        }
+    }
+
+    
 }
