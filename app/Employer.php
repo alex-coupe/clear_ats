@@ -13,4 +13,9 @@ class Employer extends Model
     {
         return $this->hasMany('App\EmployerAddress');
     }
+
+    public function contacts()
+    {
+        return $this->hasMany('App\EmployerContact');
+    }
 }
