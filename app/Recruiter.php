@@ -9,7 +9,7 @@ use Laravel\Airlock\HasApiTokens;
 use App\Permission;
 
 
-class User extends Authenticatable
+class Recruiter extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
@@ -19,6 +19,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $guarded = [];
+
+    protected $table="recruiters";
 
     /**
      * The attributes that should be hidden for arrays.
@@ -38,9 +40,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function brands()
+    public function company()
     {
-        return $this->belongsToMany('App\Brand', 'brands_users', 'user_id', 'brand_id');
+        return $this->belongsToOne('App\Company');
     }
 
     public function location()

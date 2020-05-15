@@ -5,32 +5,32 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Brand;
+use App\Company;
 use Laravel\Airlock\Airlock;
-use App\User;
+use App\Recruiter;
 use App\Permission;
 use App\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class BrandsControllerTest extends TestCase
+class CompaniesControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     /**
      *
      * @test
      */
-    public function Get_Brands_Returns_Brands_Collection()
+    public function Get_Companies_Returns_Companies_Collection()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['index']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Access To All Brands',
+            'description' => 'Allow Access To All Companies',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -40,8 +40,8 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $response = $this->json('GET','/api/brands');
-       
+        $response = $this->json('GET','/api/companies');
+ 
         $response->assertJsonCount(1);
         $response->assertStatus(200);
     }
@@ -50,9 +50,9 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Get_Brands_Fails_If_Not_Authed()
+    public function Get_Companies_Fails_If_Not_Authed()
     {
-        $response = $this->json('GET','/api/brands');
+        $response = $this->json('GET','/api/companies');
        
         $response->assertJson([
             'message' => "Unauthenticated.",
@@ -64,15 +64,15 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Get_Brand_Returns_Single_Brand()
+    public function Get_Company_Returns_Single_Company()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['show']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Access To Specific Brand',
+            'description' => 'Allow Access To Specific Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -82,9 +82,9 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        factory(Brand::class)->create();
+        factory(Company::class)->create();
 
-        $response = $this->json('GET','/api/brand/1');
+        $response = $this->json('GET','/api/company/1');
        
         $response->assertJsonCount(1);
         $response->assertStatus(200);
@@ -94,9 +94,9 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-     public function Get_Brand_Fails_If_Not_Authed()
+     public function Get_Company_Fails_If_Not_Authed()
      {
-         $response = $this->json('GET','/api/brand/1');
+         $response = $this->json('GET','/api/company/1');
         
          $response->assertJson([
              'message' => "Unauthenticated.",
@@ -108,15 +108,15 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-     public function Post_Brand_Stores_In_DB()
+     public function Post_Company_Stores_In_DB()
      {
          Airlock::actingAs(
-             factory(User::class)->create(),
+             factory(Recruiter::class)->create(),
              ['store']
          );
 
          factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -126,15 +126,15 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
  
-         $brand = factory(brand::class)->create();
+         $company = factory(Company::class)->create();
         
-         $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-         'location_id' => $brand->location_id,  'telephone' => $brand->telephone,
-         'email' => $brand->email,
-         'website' => $brand->website,
+         $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+         'location_id' => $company->location_id,  'telephone' => $company->telephone,
+         'email' => $company->email,
+         'website' => $company->website,
         
          ]); 
-        
+       
          $response->assertJsonCount(8);
          $response->assertStatus(201);
      }
@@ -146,12 +146,12 @@ class BrandsControllerTest extends TestCase
     public function Missing_Name_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -161,12 +161,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
         
-        $response = $this->json('POST','/api/brands', [
-        'location_id' => $brand->location_id,  'telephone' => $brand->telephone,
-        'email' => $brand->email,
-        'website' => $brand->website,
+        $response = $this->json('POST','/api/companies', [
+        'location_id' => $company->location_id,  'telephone' => $company->telephone,
+        'email' => $company->email,
+        'website' => $company->website,
         ]); 
 
         $response->assertJsonCount(2);
@@ -180,12 +180,12 @@ class BrandsControllerTest extends TestCase
     public function Missing_Location_Id_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -195,12 +195,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
        
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-         'telephone' => $brand->telephone,
-        'email' => $brand->email,
-        'website' => $brand->website,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+         'telephone' => $company->telephone,
+        'email' => $company->email,
+        'website' => $company->website,
        
         ]); 
        
@@ -215,12 +215,12 @@ class BrandsControllerTest extends TestCase
     public function Missing_Telephone_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -230,12 +230,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
        
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-        'location_id' => $brand->location_id,  
-        'email' => $brand->email,
-        'website' => $brand->website,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+        'location_id' => $company->location_id,  
+        'email' => $company->email,
+        'website' => $company->website,
        
         ]); 
        
@@ -250,12 +250,12 @@ class BrandsControllerTest extends TestCase
     public function Missing_Email_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -265,12 +265,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
        
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-        'location_id' => $brand->location_id,  
-        'telephone' => $brand->telephone,
-        'website' => $brand->website,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+        'location_id' => $company->location_id,  
+        'telephone' => $company->telephone,
+        'website' => $company->website,
        
         ]); 
        
@@ -285,12 +285,12 @@ class BrandsControllerTest extends TestCase
     public function Missing_Url_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -300,12 +300,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
        
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-        'location_id' => $brand->location_id,  
-        'email' => $brand->email,
-        'telephone' => $brand->telephone,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+        'location_id' => $company->location_id,  
+        'email' => $company->email,
+        'telephone' => $company->telephone,
        
         ]); 
        
@@ -320,12 +320,12 @@ class BrandsControllerTest extends TestCase
     public function Erroneous_Telephone_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -335,12 +335,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
         
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-        'location_id' => $brand->location_id,  'telephone' => '01125',
-        'email' => $brand->email,
-        'website' => $brand->website,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+        'location_id' => $company->location_id,  'telephone' => '01125',
+        'email' => $company->email,
+        'website' => $company->website,
        
         ]); 
 
@@ -355,12 +355,12 @@ class BrandsControllerTest extends TestCase
     public function Erroneous_Email_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -370,12 +370,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
         
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-        'location_id' => $brand->location_id,  'telephone' => $brand->telephone,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+        'location_id' => $company->location_id,  'telephone' => $company->telephone,
         'email' => 'bla.g',
-        'website' => $brand->website,
+        'website' => $company->website,
        
         ]); 
 
@@ -390,12 +390,12 @@ class BrandsControllerTest extends TestCase
     public function Erroneous_Url_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Brand',
+            'description' => 'Allow Create Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -405,11 +405,11 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $brand = factory(brand::class)->create();
+        $company = factory(Company::class)->create();
         
-        $response = $this->json('POST','/api/brands', ['brand_name' => $brand->brand_name,
-        'location_id' => $brand->location_id,  'telephone' => $brand->telephone,
-        'email' => $brand->email,
+        $response = $this->json('POST','/api/companies', ['company_name' => $company->company_name,
+        'location_id' => $company->location_id,  'telephone' => $company->telephone,
+        'email' => $company->email,
         'website' => 'not today',
        
         ]); 
@@ -422,15 +422,15 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Put_Brand_Updates_DB_Entry()
+    public function Put_Company_Updates_DB_Entry()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Edit Brand',
+            'description' => 'Allow Edit Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -440,12 +440,12 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        factory(Brand::class)->create();
+        factory(Company::class)->create();
 
-        $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
+        $response = $this->json('PUT','/api/company/1', ["Company_name" => 'updated name']);
         
         $response->assertJson([
-            'brand_name' => 'updated name',
+            'Company_name' => 'updated name',
         ]);
         $response->assertStatus(200);
     }
@@ -454,15 +454,15 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Put_Unknown_Brand_Gives_Error()
+    public function Put_Unknown_Company_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Edit Brand',
+            'description' => 'Allow Edit Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -472,7 +472,7 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
     
-        $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
+        $response = $this->json('PUT','/api/company/1', ["Company_name" => 'updated name']);
         $response->assertStatus(404);
     }
 
@@ -480,9 +480,9 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Put_Brand_Fails_If_Unauthorised()
+    public function Put_Company_Fails_If_Unauthorised()
     {
-        $response = $this->json('PUT','/api/brand/1', ["brand_name" => 'updated name']);
+        $response = $this->json('PUT','/api/company/1', ["Company_name" => 'updated name']);
         $response->assertJson([
             'message' => "Unauthenticated.",
         ]);
@@ -496,15 +496,15 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Delete_Brand_Removes_Db_Entry()
+    public function Delete_Company_Removes_Db_Entry()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Delete Brand',
+            'description' => 'Allow Delete Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -514,9 +514,9 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        factory(Brand::class)->create();
+        factory(Company::class)->create();
 
-        $response = $this->json('DELETE','/api/brand/1');
+        $response = $this->json('DELETE','/api/company/1');
         $response->assertJson([
             'success' => 1,
         ]);
@@ -528,15 +528,15 @@ class BrandsControllerTest extends TestCase
      *
      * @test
      */
-    public function Delete_Unknown_Brand_Gives_Error()
+    public function Delete_Unknown_Company_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Delete Brand',
+            'description' => 'Allow Delete Company',
             'active' => true
         ]);
         factory(Role::class)->create();
@@ -546,7 +546,7 @@ class BrandsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $response = $this->json('DELETE','/api/brand/1');
+        $response = $this->json('DELETE','/api/company/1');
         $response->assertStatus(404);
 
     }
@@ -557,7 +557,7 @@ class BrandsControllerTest extends TestCase
      */
     public function Delete_Fails_If_Unauthorised()
     {
-        $response = $this->json('DELETE','/api/brand/1');
+        $response = $this->json('DELETE','/api/company/1');
         $response->assertJson([
             'message' => "Unauthenticated.",
         ]);

@@ -10,8 +10,8 @@ class Location extends Model
 
     protected $guarded = [];
 
-    public function users()
+    public function recruiters()
     {
-       return $this->hasMany('App\User');
+       return $this->hasMany('App\Recruiter');
     }
 }

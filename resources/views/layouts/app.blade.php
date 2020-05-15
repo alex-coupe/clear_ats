@@ -27,7 +27,7 @@
     <div id="master">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-Company" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 </div>

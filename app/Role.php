@@ -10,9 +10,9 @@ class Role extends Model
     
     protected $table = 'roles';
 
-    public function users()
+    public function recruiterss()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Recruiter::class);
     }
 
     public function permissions()

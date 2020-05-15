@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUser extends FormRequest
+class UpdateRecruiter extends FormRequest
 {
        /**
      * Get the validation rules that apply to the request.
@@ -16,7 +16,7 @@ class UpdateUser extends FormRequest
         return [
             'first_name' => 'max:255|string',
             'last_name' => 'max:255|string',
-            'email' => 'unique:users,email|email',
+            'email' => 'unique:recruiters,email|email',
             'email_verified_at' => 'nullable',
             'password' => 'string',
             'remember_token' => 'nullable',

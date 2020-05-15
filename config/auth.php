@@ -16,6 +16,7 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
+        'table' => 'recruiters',
     ],
 
     /*
@@ -68,12 +69,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Recruiter::class,
+            
         ],
 
         // 'users' => [
         //     'driver' => 'database',
-        //     'table' => 'users',
+            
         // ],
     ],
 

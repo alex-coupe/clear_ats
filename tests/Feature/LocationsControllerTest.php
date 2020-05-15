@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Laravel\Airlock\Airlock;
-use App\User;
+use App\Recruiter;
 use App\Location;
 use App\Permission;
 use App\Role;
@@ -25,7 +25,7 @@ class LocationsControllerTest extends TestCase
     public function Get_Locations_Returns_Locations_Collection()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['index']
         );
 
@@ -53,7 +53,7 @@ class LocationsControllerTest extends TestCase
     public function Get_Location_By_ID_Returns_Location()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['show']
         );
 
@@ -82,7 +82,7 @@ class LocationsControllerTest extends TestCase
     public function Get_Unknown_Location_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['show']
         );
 
@@ -137,7 +137,7 @@ class LocationsControllerTest extends TestCase
      public function Post_Location_Stores_In_DB()
      {
          Airlock::actingAs(
-             factory(User::class)->create(),
+             factory(Recruiter::class)->create(),
              ['store']
          );
 
@@ -173,7 +173,7 @@ class LocationsControllerTest extends TestCase
     public function Missing_Name_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
@@ -209,7 +209,7 @@ class LocationsControllerTest extends TestCase
     public function Missing_Address_Line_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
@@ -245,7 +245,7 @@ class LocationsControllerTest extends TestCase
     public function Missing_City_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
@@ -281,7 +281,7 @@ class LocationsControllerTest extends TestCase
     public function Missing_State_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
@@ -317,7 +317,7 @@ class LocationsControllerTest extends TestCase
     public function Missing_Post_Code_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
@@ -353,7 +353,7 @@ class LocationsControllerTest extends TestCase
     public function Erroneous_Post_Code_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['store']
         );
 
@@ -412,7 +412,7 @@ class LocationsControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
@@ -445,7 +445,7 @@ class LocationsControllerTest extends TestCase
     public function Put_Unknown_Location_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
@@ -487,7 +487,7 @@ class LocationsControllerTest extends TestCase
     public function Delete_Location_Removes_Db_Entry()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 
@@ -520,7 +520,7 @@ class LocationsControllerTest extends TestCase
     public function Delete_Unknown_Location_Gives_Error()
     {
         Airlock::actingAs(
-            factory(User::class)->create(),
+            factory(Recruiter::class)->create(),
             ['*']
         );
 

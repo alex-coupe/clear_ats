@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrandsUsersTable extends Migration
+class CreateRecruiterRelationshipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateBrandsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('brands_users', function (Blueprint $table) {
+        Schema::create('recruiter_relationships', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('brand_id');
+            $table->string('relationship');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateBrandsUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands_to_users');
+        Schema::dropIfExists('recruiter_relationship');
     }
 }

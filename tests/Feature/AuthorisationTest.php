@@ -11,7 +11,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\DB;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
-use App\User;
+use App\Recruiter;
 
 class AuthorisationTest extends TestCase
 {
@@ -25,16 +25,20 @@ class AuthorisationTest extends TestCase
      */
     public function Login_Allows_Request_With_Correct_Credentials()
     {
-        $user = factory(User::class)->create([
+        $this->withSession(['_token'=>'test']);
+       $recruiter = factory(Recruiter::class)->create([
         'password' => bcrypt($password = 'test123'),
         ]);
 
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'email' =>$recruiter->email,
             'password' => $password,
+            '_token' => 'test'
         ]);
 
-        $this->assertAuthenticatedAs($user);
+       
+
+        $this->assertAuthenticatedAs($recruiter);
     }
 
     /**
@@ -43,16 +47,16 @@ class AuthorisationTest extends TestCase
      */
     public function Incorrect_Credentials_Do_Not_Allow_Login()
     {
-        $user = factory(User::class)->create([
+       $recruiter = factory(Recruiter::class)->create([
             'password' => bcrypt('test123'),
         ]);
         
         $response = $this->from('/login')->post('/login', [
-            'email' => $user->email,
+            'email' =>$recruiter->email,
             'password' => 'invalid-password',
         ]);
         
-        $this->assertInvalidCredentials(['email' => $user->email,
+        $this->assertInvalidCredentials(['email' =>$recruiter->email,
         'password' => 'invalid-password',] );
         $this->assertGuest();
     }
@@ -63,23 +67,27 @@ class AuthorisationTest extends TestCase
      */
     public function Selecting_Remember_Me_Correctly_Creates_Cookie()
     {
-        $user = factory(User::class)->create([
+        $this->withSession(['_token'=>'test']);
+       $recruiter = factory(Recruiter::class)->create([
             'id' => random_int(1, 100),
             'password' => bcrypt($password = 'password123'),
         ]);
         
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'email' =>$recruiter->email,
             'password' => $password,
             'remember' => 'on',
+            '_token' => 'test'
         ]);
-        
+       
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
-            $user->id,
-            $user->getRememberToken(),
-            $user->password,
+           $recruiter->id,
+           $recruiter->getRememberToken(),
+           $recruiter->password,
         ]));
-        $this->assertAuthenticatedAs($user);
+
+       
+        $this->assertAuthenticatedAs($recruiter);
     }
 
     /**
@@ -88,18 +96,20 @@ class AuthorisationTest extends TestCase
      */
     public function Forgot_My_Password_Should_Send_Email_Link()
     {
+        $this->withSession(['_token'=>'test']);
         Notification::fake();
       
-        $user = factory(User::class)->create();
+       $recruiter = factory(Recruiter::class)->create();
       
         $response = $this->post('/password/email', [
-            'email' => $user->email,
+            'email' =>$recruiter->email,
+            '_token' => 'test'
         ]);
 
         $token = DB::table('password_resets')->first();
         $this->assertNotNull($token);
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification, $channels) use ($token) {
+        Notification::assertSentTo($recruiter, ResetPassword::class, function ($notification, $channels) use ($token) {
             return Hash::check($notification->token, $token->token) === true;
         });
     }
@@ -110,15 +120,17 @@ class AuthorisationTest extends TestCase
      */
     public function Logout_Should_Delete_Session()
     {
-        $user = factory(User::class)->create([
+        $this->withSession(['_token'=>'test']);
+       $recruiter = factory(Recruiter::class)->create([
             'id' => random_int(1, 100),
             'password' => bcrypt($password = 'password123'),
         ]);
         
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'email' =>$recruiter->email,
             'password' => $password,
             'remember' => 'on',
+            '_token' => 'test'
         ]);
         
         Auth::logout();

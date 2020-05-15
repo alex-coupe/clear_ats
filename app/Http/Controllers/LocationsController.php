@@ -8,7 +8,7 @@ use App\Http\Resources\LocationResource;
 use App\Location;
 use App\Http\Requests\StoreLocation;
 use App\Http\Requests\UpdateLocation;
-use App\User;
+use App\Recruiter;
 
 class LocationsController extends Controller
 {
@@ -19,7 +19,7 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Access To All Locations")
             {
@@ -38,7 +38,7 @@ class LocationsController extends Controller
     public function store(StoreLocation $request)
     {
         
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Create Location")
             {
@@ -57,7 +57,7 @@ class LocationsController extends Controller
      */
     public function show($id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Access To Specific Location")
             {
@@ -76,7 +76,7 @@ class LocationsController extends Controller
      */
     public function update(UpdateLocation $request, $id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Edit Location")
             {
@@ -96,7 +96,7 @@ class LocationsController extends Controller
      */
     public function destroy($id)
     {
-        $permissions = User::GetPermissions(); 
+        $permissions = Recruiter::GetPermissions(); 
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Delete Location")
             {

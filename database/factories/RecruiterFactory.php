@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use App\Recruiter;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Recruiter::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -31,5 +31,6 @@ $factory->define(User::class, function (Faker $faker) {
         'mobile' => $faker->e164PhoneNumber,
         'dob' => $faker->date,
         'role_id'=> 1,
+        'company_id' => $faker->numberBetween(0,2)
     ];
 });

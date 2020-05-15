@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\BrandCollection;
-use App\Http\Resources\BrandResource;
-use App\Http\Requests\StoreBrand;
-use App\Http\Requests\UpdateBrand;
-use App\Brand;
-use App\User;
+use App\Http\Resources\CompanyCollection;
+use App\Http\Resources\CompanyResource;
+use App\Http\Requests\StoreCompany;
+use App\Http\Requests\UpdateCompany;
+use App\Company;
+use App\Recruiter;
 
-class BrandsController extends Controller
+class CompaniesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,11 +19,11 @@ class BrandsController extends Controller
      */
     public function index()
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To All Brands")
+            if ($permission->description == "Allow Access To All Companies")
             {
-                return new BrandCollection(Brand::all());
+                return new CompanyCollection(Company::all());
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);  
@@ -32,17 +32,17 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreBrand  $request
+     * @param  \Illuminate\Http\StoreCompany  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBrand $request)
+    public function store(StoreCompany $request)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Create Brand")
+            if ($permission->description == "Allow Create Company")
             {
-                $brand = Brand::create($request->validated());
-                return $brand;
+                $Company = Company::create($request->validated());
+                return $Company;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401); 
@@ -56,11 +56,11 @@ class BrandsController extends Controller
      */
     public function show($id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To Specific Brand")
+            if ($permission->description == "Allow Access To Specific Company")
             {
-                return new BrandResource(Brand::where('id',$id)->firstOrFail());
+                return new CompanyResource(Company::where('id',$id)->firstOrFail());
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401); 
@@ -69,19 +69,19 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request\UpdateBrand  $request
+     * @param  \Illuminate\Http\Request\UpdateCompany  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBrand $request, $id)
+    public function update(UpdateCompany $request, $id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Edit Brand")
+            if ($permission->description == "Allow Edit Company")
             {
-                $brand = Brand::findOrFail($id);
-                $brand->update($request->validated());
-                return $brand;
+                $Company = Company::findOrFail($id);
+                $Company->update($request->validated());
+                return $Company;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401); 
@@ -95,12 +95,12 @@ class BrandsController extends Controller
      */
     public function destroy($id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Delete Brand")
+            if ($permission->description == "Allow Delete Company")
             {
-                $brand = Brand::findOrFail($id);
-                $result = $brand->delete();
+                $Company = Company::findOrFail($id);
+                $result = $Company->delete();
                 return response()->json(["success" => $result]);
             }
         }

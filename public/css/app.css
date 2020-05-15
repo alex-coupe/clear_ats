@@ -4539,7 +4539,7 @@ input[type=button].btn-block {
   justify-content: space-between;
 }
 
-.navbar-brand {
+.navbar-Company {
   display: inline-block;
   padding-top: 0.32rem;
   padding-bottom: 0.32rem;
@@ -4549,8 +4549,8 @@ input[type=button].btn-block {
   white-space: nowrap;
 }
 
-.navbar-brand:hover,
-.navbar-brand:focus {
+.navbar-Company:hover,
+.navbar-Company:focus {
   text-decoration: none;
 }
 
@@ -4854,12 +4854,12 @@ input[type=button].btn-block {
   display: none;
 }
 
-.navbar-light .navbar-brand {
+.navbar-light .navbar-Company {
   color: rgba(0, 0, 0, 0.9);
 }
 
-.navbar-light .navbar-brand:hover,
-.navbar-light .navbar-brand:focus {
+.navbar-light .navbar-Company:hover,
+.navbar-light .navbar-Company:focus {
   color: rgba(0, 0, 0, 0.9);
 }
 
@@ -4905,12 +4905,12 @@ input[type=button].btn-block {
   color: rgba(0, 0, 0, 0.9);
 }
 
-.navbar-dark .navbar-brand {
+.navbar-dark .navbar-Company {
   color: #fff;
 }
 
-.navbar-dark .navbar-brand:hover,
-.navbar-dark .navbar-brand:focus {
+.navbar-dark .navbar-Company:hover,
+.navbar-dark .navbar-Company:focus {
   color: #fff;
 }
 

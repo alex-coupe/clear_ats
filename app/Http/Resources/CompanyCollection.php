@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BrandCollection extends ResourceCollection
+class CompanyCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +14,6 @@ class BrandCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return BrandResource::collection($this->collection);
+        return CompanyResource::collection($this->collection);
     }
 }

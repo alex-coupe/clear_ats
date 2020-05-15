@@ -4,19 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Company extends Model
 {
     protected $guarded = [];
 
-    protected $table = "brands";
+    protected $table = "companies";
 
     public function locations()
     {
         $this->hasMany('App\Location');
     }
 
-    public function users()
+    public function recruiters()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\Recruiter');
     }
 }

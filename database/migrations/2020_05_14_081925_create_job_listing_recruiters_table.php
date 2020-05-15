@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrandsTable extends Migration
+class CreateJobListingRecruitersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateBrandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('job_listing_recruiters', function (Blueprint $table) {
             $table->id();
-            $table->string('brand_name');
-            $table->integer('location_id');
-            $table->string('telephone');
-            $table->string('email');
-            $table->string('website');
+            $table->integer('job_listing_id');
+            $table->integer('recruiter_id');
+            $table->integer('recruiter_relationship_id');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('job_listing_recruiter');
     }
 }

@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Users
-Route::middleware('auth:airlock')->get('/users', 'UsersController@index');
-Route::get('/user/{id}', 'UsersController@show');
-Route::middleware('auth:airlock')->post('/users', 'UsersController@store');
-Route::middleware('auth:airlock')->put('/user/{id}', 'UsersController@update');
-Route::middleware('auth:airlock')->delete('/user/{id}', 'UsersController@destroy');
+//recruiters
+Route::middleware('auth:airlock')->get('/recruiters', 'RecruitersController@index');
+Route::get('/recruiter/{id}', 'RecruitersController@show');
+Route::middleware('auth:airlock')->post('/recruiters', 'RecruitersController@store');
+Route::middleware('auth:airlock')->put('/recruiter/{id}', 'RecruitersController@update');
+Route::middleware('auth:airlock')->delete('/recruiter/{id}', 'RecruitersController@destroy');
 
 //Locations
 Route::middleware('auth:airlock')->get('/locations', 'LocationsController@index');
@@ -28,9 +28,9 @@ Route::middleware('auth:airlock')->post('/locations', 'LocationsController@store
 Route::middleware('auth:airlock')->put('/location/{id}', 'LocationsController@update');
 Route::middleware('auth:airlock')->delete('/location/{id}', 'LocationsController@destroy');
 
-//Brands
-Route::middleware('auth:airlock')->get('/brands', 'BrandsController@index');
-Route::middleware('auth:airlock')->get('/brand/{id}', 'BrandsController@show');
-Route::middleware('auth:airlock')->post('/brands', 'BrandsController@store');
-Route::middleware('auth:airlock')->put('/brand/{id}', 'BrandsController@update');
-Route::middleware('auth:airlock')->delete('/brand/{id}', 'BrandsController@destroy');
+//Companies
+Route::middleware('auth:airlock')->get('/companies', 'CompaniesController@index');
+Route::middleware('auth:airlock')->get('/company/{id}', 'CompaniesController@show');
+Route::middleware('auth:airlock')->post('/companies', 'CompaniesController@store');
+Route::middleware('auth:airlock')->put('/company/{id}', 'CompaniesController@update');
+Route::middleware('auth:airlock')->delete('/company/{id}', 'CompaniesController@destroy');

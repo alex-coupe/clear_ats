@@ -3,28 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
-use App\User;
+use App\Http\Resources\RecruiterCollection;
+use App\Http\Resources\RecruiterResource;
+use App\Recruiter;
 use App\Permission;
-use App\Http\Requests\StoreUser;
-use App\Http\Requests\UpdateUser;
+use App\Http\Requests\StoreRecruiter;
+use App\Http\Requests\UpdateRecruiter;
 use Illuminate\Support\Facades\DB;
 
-class UsersController extends Controller
+class RecruitersController extends Controller
 {
     /**
-     * Return a collection of users.
+     * Return a collection of Recruiters.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {      
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To All Users")
+            if ($permission->description == "Allow Access To All Recruiters")
             {
-                return new UserCollection(User::all());
+                return new RecruiterCollection(Recruiter::all());
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);        
@@ -33,17 +33,17 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreUser  $request
+     * @param  \Illuminate\Http\StoreRecruiter  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUser $request)
+    public function store(StoreRecruiter $request)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Create New User")
+            if ($permission->description == "Allow Create New Recruiter")
             {
-                $user = User::create($request->validated());
-                return $user;
+                $Recruiter = Recruiter::create($request->validated());
+                return $Recruiter;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401); 
@@ -57,12 +57,12 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         if ($permissions) {
             foreach($permissions as $permission) {
-                if ($permission->description == "Allow Access To User")
+                if ($permission->description == "Allow Access To Recruiter")
                 {
-                    return new UserResource(User::where('id',$id)->firstOrFail());
+                    return new RecruiterResource(Recruiter::where('id',$id)->firstOrFail());
                 }
             }
         }
@@ -76,15 +76,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUser $request, $id)
+    public function update(UpdateRecruiter $request, $id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Update User")
+            if ($permission->description == "Allow Update Recruiter")
             {
-                $user = User::findOrFail($id);
-                $user->update($request->validated());
-                return $user;
+                $Recruiter = Recruiter::findOrFail($id);
+                $Recruiter->update($request->validated());
+                return $Recruiter;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);
@@ -98,12 +98,12 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $permissions = User::GetPermissions();
+        $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Delete User")
+            if ($permission->description == "Allow Delete Recruiter")
             {
-                $user = User::findOrFail($id);
-                $result = $user->delete();
+                $Recruiter = Recruiter::findOrFail($id);
+                $result = $Recruiter->delete();
                 return response()->json(["success" => $result]);
             }
         }

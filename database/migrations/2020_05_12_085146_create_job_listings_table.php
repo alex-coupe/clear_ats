@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobListingTable extends Migration
+class CreateJobListingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateJobListingTable extends Migration
      */
     public function up()
     {
-        Schema::create('job_listing', function (Blueprint $table) {
+        Schema::create('job_listings', function (Blueprint $table) {
             $table->id();
             $table->string('employer_ref');
             $table->string('recruiter_ref')->nullable();
@@ -25,7 +25,6 @@ class CreateJobListingTable extends Migration
             $table->dateTime('expiry_date');
             $table->dateTime('live_date')->nullable();
             $table->string('job_description_url')->nullable();
-            $table->integer('recruiter_id');
             $table->timestamps();
         });
     }
