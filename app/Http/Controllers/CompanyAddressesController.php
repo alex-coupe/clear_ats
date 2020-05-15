@@ -21,7 +21,7 @@ class CompanyAddressesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To All Company Addresses")
+            if ($permission->description == "Allow Access To All Company Addresses" && $permission->active == true)
             {
                 return new CompanyAddressCollection(CompanyAddress::all());
             }
@@ -40,7 +40,7 @@ class CompanyAddressesController extends Controller
         
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Create Company Address")
+            if ($permission->description == "Allow Create Company Address" && $permission->active == true)
             {
                 $companyAddress = CompanyAddress::create($request->validated());
                 return $companyAddress;
@@ -59,7 +59,7 @@ class CompanyAddressesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To Specific Company Address")
+            if ($permission->description == "Allow Access To Specific Company Address" && $permission->active == true)
             {
                 return new CompanyAddressResource(CompanyAddress::where('id',$id)->firstOrFail());
             }
@@ -78,7 +78,7 @@ class CompanyAddressesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Edit Company Address")
+            if ($permission->description == "Allow Edit Company Address" && $permission->active == true)
             {
                 $companyAddress = CompanyAddress::findOrFail($id);
                 $companyAddress->update($request->validated());
@@ -98,7 +98,7 @@ class CompanyAddressesController extends Controller
     {
         $permissions = Recruiter::GetPermissions(); 
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Delete Company Address")
+            if ($permission->description == "Allow Delete Company Address" && $permission->active == true)
             {
                 $companyAddress = CompanyAddress::findOrFail($id);
                 $result = $companyAddress->delete();

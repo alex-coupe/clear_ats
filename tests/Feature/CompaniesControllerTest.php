@@ -38,6 +38,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
 
         $response = $this->json('GET','/api/companies');
@@ -80,6 +81,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
 
         factory(Company::class)->create();
@@ -124,6 +126,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
  
          $company = factory(Company::class)->create();
@@ -158,7 +161,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -192,7 +196,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -227,7 +232,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -262,7 +268,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -297,7 +304,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -332,7 +340,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -367,7 +376,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         $company = factory(Company::class)->create();
@@ -403,6 +413,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
 
         $company = factory(Company::class)->create();
@@ -438,6 +449,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
 
         factory(Company::class)->create();
@@ -470,6 +482,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
     
         $response = $this->json('PUT','/api/company/1', ["company_name" => 'updated name']);
@@ -511,7 +524,8 @@ class CompaniesControllerTest extends TestCase
         DB::table('role_permissions')->insert(
             [
              'permission_id' => 1, 
-             'role_id' => 1, 
+             'role_id' => 1,
+             'active' => true 
            ]);
 
         factory(Company::class)->create();
@@ -544,6 +558,7 @@ class CompaniesControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
 
         $response = $this->json('DELETE','/api/company/1');

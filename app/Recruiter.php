@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Airlock\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use App\Permission;
 
 
@@ -58,9 +59,20 @@ class Recruiter extends Authenticatable
     public static function GetPermissions()
     {
         if (auth()->user()) {
-            return Permission::whereHas('roles', function($query) {
-                $query->where('roles.id', auth()->user()->role_id);
-            })->get();
+            return DB::table('permissions')
+            ->select(
+                'permissions.description',
+                'role_permissions.active',
+            )
+            ->join(
+                'role_permissions',
+                'role_permissions.permission_id','=','permissions.id'
+            )->join(
+                'roles',
+                'role_permissions.role_id','=','roles.id'
+            )
+            ->where('roles.id','=', auth()->user()->role_id)
+            ->get();
         }
     }
 

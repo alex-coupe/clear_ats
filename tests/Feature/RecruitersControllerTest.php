@@ -35,6 +35,7 @@ class RecruitersControllerTest extends TestCase
             [
              'permission_id' => 1, 
              'role_id' => 1, 
+             'active' => true
            ]);
         $response = $this->json('GET','/api/recruiters');
        
@@ -65,6 +66,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
               
         $response = $this->json('GET','/api/recruiter/1');
@@ -94,6 +96,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
         $response = $this->json('GET','/api/recruiter/2');
        
@@ -120,7 +123,7 @@ class RecruitersControllerTest extends TestCase
      */
     public function Post_Recruiter_Stores_In_DB()
     {
-        $this->withoutExceptionHandling();
+       
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
             ['store']
@@ -136,6 +139,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -152,7 +156,7 @@ class RecruitersControllerTest extends TestCase
         'company_id' => $recruiter->company_id
         ]);
       
-        $response->assertJsonCount(14);
+        $response->assertJsonCount(13);
         $response->assertStatus(201);
     }
 
@@ -177,6 +181,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -219,6 +224,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -260,7 +266,8 @@ class RecruitersControllerTest extends TestCase
         DB::table('role_permissions')->insert(
         [
             'permission_id' => 1, 
-            'role_id' => 1, 
+            'role_id' => 1,
+            'active' => true 
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -303,6 +310,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -344,7 +352,8 @@ class RecruitersControllerTest extends TestCase
         DB::table('role_permissions')->insert(
         [
             'permission_id' => 1, 
-            'role_id' => 1, 
+            'role_id' => 1,
+            'active' => true 
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -386,7 +395,8 @@ class RecruitersControllerTest extends TestCase
         DB::table('role_permissions')->insert(
         [
             'permission_id' => 1, 
-            'role_id' => 1, 
+            'role_id' => 1,
+            'active' => true 
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -429,6 +439,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -471,7 +482,8 @@ class RecruitersControllerTest extends TestCase
         DB::table('role_permissions')->insert(
         [
             'permission_id' => 1, 
-            'role_id' => 1, 
+            'role_id' => 1,
+            'active' => true 
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -513,7 +525,8 @@ class RecruitersControllerTest extends TestCase
         DB::table('role_permissions')->insert(
         [
             'permission_id' => 1, 
-            'role_id' => 1, 
+            'role_id' => 1,
+            'active' => true 
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -556,6 +569,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -600,6 +614,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -682,6 +697,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $recruiter = factory(Recruiter::class)->create();
@@ -728,6 +744,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $response = $this->json('PUT','/api/recruiter/2', ["first_name" => 'updated name']);
@@ -768,7 +785,8 @@ class RecruitersControllerTest extends TestCase
         DB::table('role_permissions')->insert(
         [
             'permission_id' => 1, 
-            'role_id' => 1, 
+            'role_id' => 1,
+            'active' => true 
         ]);
 
         $response = $this->json('DELETE','/api/recruiter/1');
@@ -799,6 +817,7 @@ class RecruitersControllerTest extends TestCase
         [
             'permission_id' => 1, 
             'role_id' => 1, 
+            'active' => true
         ]);
 
         $response = $this->json('DELETE','/api/recruiter/2');

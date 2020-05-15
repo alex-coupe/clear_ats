@@ -21,7 +21,7 @@ class CompaniesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To All Companies")
+            if ($permission->description == "Allow Access To All Companies" && $permission->active == true)
             {
                 return new CompanyCollection(Company::all());
             }
@@ -39,7 +39,7 @@ class CompaniesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Create Company")
+            if ($permission->description == "Allow Create Company" && $permission->active == true)
             {
                 $Company = Company::create($request->validated());
                 return $Company;
@@ -58,7 +58,7 @@ class CompaniesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To Specific Company")
+            if ($permission->description == "Allow Access To Specific Company" && $permission->active == true)
             {
                 return new CompanyResource(Company::where('id',$id)->firstOrFail());
             }
@@ -77,7 +77,7 @@ class CompaniesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Edit Company")
+            if ($permission->description == "Allow Edit Company" && $permission->active == true)
             {
                 $Company = Company::findOrFail($id);
                 $Company->update($request->validated());
@@ -97,7 +97,7 @@ class CompaniesController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Delete Company")
+            if ($permission->description == "Allow Delete Company" && $permission->active == true)
             {
                 $Company = Company::findOrFail($id);
                 $result = $Company->delete();

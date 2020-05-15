@@ -16,7 +16,6 @@ class CreateRecruiterRelationshipsTable extends Migration
         Schema::create('recruiter_relationships', function (Blueprint $table) {
             $table->id();
             $table->string('relationship');
-            $table->timestamps();
         });
     }
 

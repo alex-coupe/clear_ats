@@ -17,7 +17,7 @@ class CreateRolePermissions extends Migration
             $table->id();
             $table->integer('role_id');
             $table->integer('permission_id');
-            $table->timestamps();
+            $table->boolean('active');
         });
     }
 

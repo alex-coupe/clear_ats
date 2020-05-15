@@ -22,7 +22,7 @@ class RecruitersController extends Controller
     {      
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To All Recruiters")
+            if ($permission->description == "Allow Access To All Recruiters" && $permission->active == true)
             {
                 return new RecruiterCollection(Recruiter::all());
             }
@@ -40,7 +40,7 @@ class RecruitersController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Create New Recruiter")
+            if ($permission->description == "Allow Create New Recruiter" && $permission->active == true)
             {
                 $Recruiter = Recruiter::create($request->validated());
                 return $Recruiter;
@@ -60,7 +60,7 @@ class RecruitersController extends Controller
         $permissions = Recruiter::GetPermissions();
         if ($permissions) {
             foreach($permissions as $permission) {
-                if ($permission->description == "Allow Access To Recruiter")
+                if ($permission->description == "Allow Access To Recruiter" && $permission->active == true)
                 {
                     return new RecruiterResource(Recruiter::where('id',$id)->firstOrFail());
                 }
@@ -80,7 +80,7 @@ class RecruitersController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Update Recruiter")
+            if ($permission->description == "Allow Update Recruiter" && $permission->active == true)
             {
                 $Recruiter = Recruiter::findOrFail($id);
                 $Recruiter->update($request->validated());
@@ -100,7 +100,7 @@ class RecruitersController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Delete Recruiter")
+            if ($permission->description == "Allow Delete Recruiter" && $permission->active == true)
             {
                 $Recruiter = Recruiter::findOrFail($id);
                 $result = $Recruiter->delete();

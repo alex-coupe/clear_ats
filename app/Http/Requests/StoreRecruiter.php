@@ -26,7 +26,6 @@ class StoreRecruiter extends FormRequest
             'company_address_id' => 'required|integer',
             'job_title' => 'required|string',
             'mobile' => 'required|string',
-            'dob' => 'required|date',
             'role_id' => 'required|integer',
             'company_id' => 'required|integer'
         ];
