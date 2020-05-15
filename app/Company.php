@@ -10,9 +10,9 @@ class Company extends Model
 
     protected $table = "companies";
 
-    public function locations()
+    public function company_addresses()
     {
-        $this->hasMany('App\Location');
+        $this->hasMany('App\CompanyAddress');
     }
 
     public function recruiters()

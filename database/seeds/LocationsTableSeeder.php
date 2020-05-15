@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class LocationsTableSeeder extends Seeder
+class CompanyAddressTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class LocationsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Location::class, 5)->create();
+        factory(App\CompanyAddress::class, 5)->create();
     }
 }

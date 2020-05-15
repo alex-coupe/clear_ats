@@ -26,7 +26,7 @@ class RecruiterResource extends JsonResource
                     "telephone" => $this->telephone,
                     "mobile" => $this->mobile,
                     "dob" => $this->dob,
-                    "location" => $this->location,
+                    "company_address_id" => $this->company_address_id,
                     "permissions" => $this->permissions,
                     "companies" => $this->companies
             ];

@@ -29,7 +29,6 @@ class RecruitersControllerTest extends TestCase
         );
         factory(Permission::class)->create([
             'description' => 'Allow Access To All Recruiters',
-            'active' => true
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -56,7 +55,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Access To Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -87,7 +86,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Access To Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -129,7 +128,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -146,10 +145,9 @@ class RecruitersControllerTest extends TestCase
         'password' => $recruiter->password,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -171,7 +169,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -188,10 +186,9 @@ class RecruitersControllerTest extends TestCase
         'password' => $recruiter->password,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -214,7 +211,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -231,10 +228,9 @@ class RecruitersControllerTest extends TestCase
         'password' => $recruiter->password,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -257,7 +253,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -274,10 +270,9 @@ class RecruitersControllerTest extends TestCase
         'password' => $recruiter->password,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -300,7 +295,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -317,10 +312,9 @@ class RecruitersControllerTest extends TestCase
         'email_verified_at' => $recruiter->email_verified_at,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -343,7 +337,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -360,10 +354,9 @@ class RecruitersControllerTest extends TestCase
         'email_verified_at' => $recruiter->email_verified_at,
         'remember_token' => $recruiter->remember_token,
         'password' => $recruiter->password,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -377,7 +370,7 @@ class RecruitersControllerTest extends TestCase
      *
      * @test
      */
-    public function Post_Recruiter_Missing_Location_Id_Gives_Error()
+    public function Post_Recruiter_Missing_company_address_id_Gives_Error()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -386,7 +379,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -406,7 +399,6 @@ class RecruitersControllerTest extends TestCase
         'telephone' => $recruiter->telephone,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -429,7 +421,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -449,7 +441,6 @@ class RecruitersControllerTest extends TestCase
         'telephone' => $recruiter->telephone,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'company_id' => $recruiter->company_id
         ]);
         
@@ -473,7 +464,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -491,9 +482,8 @@ class RecruitersControllerTest extends TestCase
         'remember_token' => $recruiter->remember_token,
         'password' => $recruiter->password,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -516,7 +506,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -534,51 +524,7 @@ class RecruitersControllerTest extends TestCase
         'remember_token' => $recruiter->remember_token,
         'password' => $recruiter->password,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
-        'job_title' => $recruiter->job_title,
-        'dob' => $recruiter->dob,
-        'role_id' => $recruiter->role_id,
-        'company_id' => $recruiter->company_id
-        ]);
-        
-        //Json contains message and errors
-        $response->assertJsonCount(2);
-        $response->assertStatus(422);
-    }
-
-     /**
-     *
-     * @test
-     */
-    public function Post_Recruiter_Missing_Dob_Gives_Error()
-    {
-        Airlock::actingAs(
-            factory(Recruiter::class)->create(),
-            ['store']
-        );
-
-        factory(Permission::class)->create([
-            'description' => 'Allow Create New Recruiter',
-            'active' => true
-        ]);
-
-        factory(Role::class)->create();
-        DB::table('role_permissions')->insert(
-        [
-            'permission_id' => 1, 
-            'role_id' => 1, 
-        ]);
-
-        $recruiter = factory(Recruiter::class)->create();
-        $response = $this->json('POST','/api/recruiters', ["first_name" => $recruiter->first_name,
-        'last_name' => $recruiter->last_name,
-        "email" => $recruiter->email,
-        'email_verified_at' => $recruiter->email_verified_at,
-        'remember_token' => $recruiter->remember_token,
-        'password' => $recruiter->password,
-        'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
-        'mobile' => $recruiter->job_title,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
@@ -602,7 +548,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -620,10 +566,9 @@ class RecruitersControllerTest extends TestCase
         'remember_token' => $recruiter->remember_token,
         'password' => $recruiter->password,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'mobile' => $recruiter->job_title,
         'job_title' => $recruiter->job_title,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -633,49 +578,6 @@ class RecruitersControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
-     /**
-     *
-     * @test
-     */
-    public function Post_Recruiter_Erroneous_Dob_Gives_Error()
-    {
-        Airlock::actingAs(
-            factory(Recruiter::class)->create(),
-            ['store']
-        );
-
-        factory(Permission::class)->create([
-            'description' => 'Allow Create New Recruiter',
-            'active' => true
-        ]);
-
-        factory(Role::class)->create();
-        DB::table('role_permissions')->insert(
-        [
-            'permission_id' => 1, 
-            'role_id' => 1, 
-        ]);
-
-        $recruiter = factory(Recruiter::class)->create();
-        $response = $this->json('POST','/api/recruiters', ["first_name" => $recruiter->first_name,
-        'last_name' => $recruiter->last_name,
-        "email" => $recruiter->email,
-        'email_verified_at' => $recruiter->email_verified_at,
-        'remember_token' => $recruiter->remember_token,
-        'password' => $recruiter->password,
-        'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
-        'mobile' => $recruiter->job_title,
-        'job_title' => $recruiter->job_title,
-        'dob' => 'Not a dob',
-        'role_id' => $recruiter->role_id,
-        'company_id' => $recruiter->company_id
-        ]);
-        
-        //Json contains message and errors
-        $response->assertJsonCount(2);
-        $response->assertStatus(422);
-    }
 
      /**
      *
@@ -690,7 +592,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Create New Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -708,10 +610,9 @@ class RecruitersControllerTest extends TestCase
         'remember_token' => $recruiter->remember_token,
         'password' => $recruiter->password,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'mobile' => $recruiter->job_title,
         'job_title' => $recruiter->job_title,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -724,10 +625,9 @@ class RecruitersControllerTest extends TestCase
         'remember_token' => $recruiter->remember_token,
         'password' => $recruiter->password,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'mobile' => $recruiter->job_title,
         'job_title' => $recruiter->job_title,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -751,10 +651,9 @@ class RecruitersControllerTest extends TestCase
         'password' => $recruiter->password,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -775,7 +674,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Update Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -792,10 +691,9 @@ class RecruitersControllerTest extends TestCase
         'password' => $recruiter->password,
         'remember_token' => $recruiter->remember_token,
         'telephone' => $recruiter->telephone,
-        'location_id' => $recruiter->location_id,
+        'company_address_id' => $recruiter->company_address_id,
         'job_title' => $recruiter->job_title,
         'mobile' => $recruiter->mobile,
-        'dob' => $recruiter->dob,
         'role_id' => $recruiter->role_id,
         'company_id' => $recruiter->company_id
         ]);
@@ -822,7 +720,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Update Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -863,7 +761,7 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Delete Recruiter',
-            'active' => true
+            
         ]);
 
         factory(Role::class)->create();
@@ -894,7 +792,6 @@ class RecruitersControllerTest extends TestCase
 
         factory(Permission::class)->create([
             'description' => 'Allow Delete Recruiter',
-            'active' => true
         ]);
 
         factory(Role::class)->create();

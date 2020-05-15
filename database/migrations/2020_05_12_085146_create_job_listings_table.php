@@ -19,11 +19,15 @@ class CreateJobListingsTable extends Migration
             $table->string('recruiter_ref')->nullable();
             $table->string('job_title');
             $table->string('remuneration');
+            $table->string('holiday');
             $table->string('work_pattern');
-            $table->string('job_description');
-            $table->integer('employer_location_id');
+            $table->text('key_tasks');
+            $table->text('required_qualifications');
+            $table->text('job_summary');
+            $table->text('additional requirements')->nullable;
+            $table->integer('employer_company_address_id');
             $table->dateTime('expiry_date');
-            $table->dateTime('live_date')->nullable();
+            $table->dateTime('live_date');
             $table->string('job_description_url')->nullable();
             $table->timestamps();
         });

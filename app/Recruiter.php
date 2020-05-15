@@ -45,9 +45,9 @@ class Recruiter extends Authenticatable
         return $this->belongsToOne('App\Company');
     }
 
-    public function location()
+    public function companyAddress()
     {
-        return $this->hasOne('App\Location', 'id', 'location_id');
+        return $this->hasOne('App\CompanyAddress', 'id', 'company_address_id');
     }
 
     public function role()

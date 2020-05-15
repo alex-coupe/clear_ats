@@ -21,7 +21,7 @@ class UpdateRecruiter extends FormRequest
             'password' => 'string',
             'remember_token' => 'nullable',
             'telephone' => 'string',
-            'location_id' => 'integer',
+            'company_address_id' => 'integer',
             'job_title' => 'string',
             'mobile' => 'string',
             'dob' => 'date',

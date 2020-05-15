@@ -10,6 +10,8 @@ class Role extends Model
     
     protected $table = 'roles';
 
+    public $timestamps = false;
+
     public function recruiterss()
     {
         return $this->belongsToMany(Recruiter::class);

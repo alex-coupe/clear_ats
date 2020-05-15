@@ -21,7 +21,7 @@ class CreateEmployerContactsTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('email');
             $table->string('job_title');
-            $table->string('notes')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

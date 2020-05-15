@@ -20,7 +20,7 @@ class CreateApplicationsTable extends Migration
             $table->integer('status_id');
             $table->string('cv_path');
             $table->string('cover_letter_path')->nullable();
-            $table->string('notes')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

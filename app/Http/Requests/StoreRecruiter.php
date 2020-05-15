@@ -23,7 +23,7 @@ class StoreRecruiter extends FormRequest
             'password' => 'required|string',
             'remember_token' => 'present',
             'telephone' => 'required|string',
-            'location_id' => 'required|integer',
+            'company_address_id' => 'required|integer',
             'job_title' => 'required|string',
             'mobile' => 'required|string',
             'dob' => 'required|date',

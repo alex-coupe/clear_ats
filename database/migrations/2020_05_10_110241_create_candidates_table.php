@@ -20,15 +20,13 @@ class CreateCandidatesTable extends Migration
             $table->string('last_name');
             $table->string('cv_path');
             $table->string('cover_path')->nullable();
-            $table->integer('recruiter_id')->nullable();
+            $table->integer('recruiter_id');
             $table->boolean('introductory_contact_complete')->default(false);
             $table->string('current_salary')->nullable();
             $table->string('expected_salary')->nullable();
             $table->string('current_role')->nullable();
-            $table->string('current_sector')->nullable();
-            $table->string('interested_sectors')->nullable();
-            $table->string('interested_roles')->nullable();
-            $table->string('notes')->nullable();
+            $table->integer('current_sector_id')->nullable();
+            $table->text('notes')->nullable();
             $table->boolean('deleted')->default(false);
             $table->timestamps();
         });

@@ -16,6 +16,7 @@ class CreateEmployerAddressesTable extends Migration
         Schema::create('employer_addresses', function (Blueprint $table) {
             $table->id();
             $table->integer('employer_id');
+            $table->string('name');
             $table->string('line_one');
             $table->string('line_two')->nullable();
             $table->string('line_three')->nullable();

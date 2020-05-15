@@ -19,9 +19,9 @@ class CreateEmployersTable extends Migration
             $table->string('telephone');
             $table->string('email');
             $table->string('website');
-            $table->string('industry');
+            $table->integer('sector');
             $table->string('size');
-            $table->integer('creating_recruiter_id');
+            $table->integer('recruiter_id');
             $table->timestamps();
         });
     }

@@ -7,14 +7,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Laravel\Airlock\Airlock;
 use App\Recruiter;
-use App\Location;
+use App\CompanyAddress;
 use App\Permission;
 use App\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LocationsControllerTest extends TestCase
+class CompanyAddressesControllerTest extends TestCase
 {
     use DatabaseMigrations;
     
@@ -22,7 +22,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Get_Locations_Returns_Locations_Collection()
+    public function Get_Company_Addresses_Returns_Company_Addresses_Collection()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -30,8 +30,7 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Access To All Locations',
-            'active' => true
+            'description' => 'Allow Access To All Company Addresses',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -40,7 +39,7 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $response = $this->json('GET','/api/locations');
+        $response = $this->json('GET','/api/companyaddresses');
        
         $response->assertJsonCount(1);
         $response->assertStatus(200);
@@ -50,7 +49,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Get_Location_By_ID_Returns_Location()
+    public function Get_CompanyAddress_By_ID_Returns_CompanyAddress()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -58,8 +57,7 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Access To Specific Location',
-            'active' => true
+            'description' => 'Allow Access To Specific Company Address',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -68,9 +66,9 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        factory(Location::class)->create();
+        factory(CompanyAddress::class)->create();
 
-        $response = $this->json('GET','/api/location/1');
+        $response = $this->json('GET','/api/companyaddress/1');
         $response->assertJsonCount(1);
         $response->assertStatus(200);
     }
@@ -79,7 +77,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Get_Unknown_Location_Gives_Error()
+    public function Get_Unknown_CompanyAddress_Gives_Error()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -87,8 +85,7 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Access To Specific Location',
-            'active' => true
+            'description' => 'Allow Access To Specific Company Address',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -97,7 +94,7 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $response = $this->json('GET','/api/location/1');
+        $response = $this->json('GET','/api/companyaddress/1');
        
         $response->assertStatus(404);
     }
@@ -108,7 +105,7 @@ class LocationsControllerTest extends TestCase
      */
     public function Unauthorised_Get_All_Gives_Error()
     {
-        $response = $this->json('GET','/api/locations');
+        $response = $this->json('GET','/api/companyaddresses');
        
         $response->assertJson([
             'message' => "Unauthenticated.",
@@ -120,9 +117,9 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Unauthorised_Get_Location_Gives_Error()
+    public function Unauthorised_Get_CompanyAddress_Gives_Error()
     {
-        $response = $this->json('GET','/api/location/1');
+        $response = $this->json('GET','/api/companyaddress/1');
        
         $response->assertJson([
             'message' => "Unauthenticated.",
@@ -134,7 +131,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-     public function Post_Location_Stores_In_DB()
+     public function Post_CompanyAddress_Stores_In_DB()
      {
          Airlock::actingAs(
              factory(Recruiter::class)->create(),
@@ -142,8 +139,7 @@ class LocationsControllerTest extends TestCase
          );
 
          factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -152,14 +148,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
  
-         $location = factory(Location::class)->create();
+         $companyAddress = factory(CompanyAddress::class)->create();
         
-         $response = $this->json('POST','/api/locations', ['name' => $location->name,
-         'address_one' => $location->address_one,  'address_two' => $location->address_two,
-         'address_three' => $location->address_three,
-         'city' => $location->city,
-         'state' => $location->state,
-         'post_code' => $location->post_code,
+         $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+         'address_one' => $companyAddress->address_one,  'address_two' => $companyAddress->address_two,
+         'address_three' => $companyAddress->address_three,
+         'city' => $companyAddress->city,
+         'state' => $companyAddress->state,
+         'post_code' => $companyAddress->post_code,
          ]);
         
          $response->assertJsonCount(10);
@@ -178,8 +174,7 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -188,14 +183,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
        
-        $response = $this->json('POST','/api/locations', [
-        'address_one' => $location->address_one,  'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'city' => $location->city,
-        'state' => $location->state,
-        'post_code' => $location->post_code,
+        $response = $this->json('POST','/api/companyaddresses', [
+        'address_one' => $companyAddress->address_one,  'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'city' => $companyAddress->city,
+        'state' => $companyAddress->state,
+        'post_code' => $companyAddress->post_code,
         ]);
 
         $response->assertJsonCount(2);
@@ -214,8 +209,7 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -224,14 +218,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
        
-        $response = $this->json('POST','/api/locations', ['name' => $location->name,
-        'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'city' => $location->city,
-        'state' => $location->state,
-        'post_code' => $location->post_code,
+        $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+        'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'city' => $companyAddress->city,
+        'state' => $companyAddress->state,
+        'post_code' => $companyAddress->post_code,
         ]);
 
         $response->assertJsonCount(2);
@@ -250,8 +244,7 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -260,14 +253,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
        
-        $response = $this->json('POST','/api/locations', ['name' => $location->name,
-        'address_one' => $location->address_one,
-        'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'state' => $location->state,
-        'post_code' => $location->post_code,
+        $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+        'address_one' => $companyAddress->address_one,
+        'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'state' => $companyAddress->state,
+        'post_code' => $companyAddress->post_code,
         ]);
 
         $response->assertJsonCount(2);
@@ -286,8 +279,8 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -296,14 +289,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
        
-        $response = $this->json('POST','/api/locations', ['name' => $location->name,
-        'address_one' => $location->address_one,
-        'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'city' => $location->city,
-        'post_code' => $location->post_code,
+        $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+        'address_one' => $companyAddress->address_one,
+        'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'city' => $companyAddress->city,
+        'post_code' => $companyAddress->post_code,
         ]);
 
         $response->assertJsonCount(2);
@@ -322,8 +315,8 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -332,14 +325,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
        
-        $response = $this->json('POST','/api/locations', ['name' => $location->name,
-        'address_one' => $location->address_one,
-        'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'city' => $location->city,
-        'state' => $location->state,
+        $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+        'address_one' => $companyAddress->address_one,
+        'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'city' => $companyAddress->city,
+        'state' => $companyAddress->state,
         ]);
 
         $response->assertJsonCount(2);
@@ -358,8 +351,8 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Create Location',
-            'active' => true
+            'description' => 'Allow Create Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -368,14 +361,14 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
        
-        $response = $this->json('POST','/api/locations', ['name' => $location->name,
-        'address_one' => $location->address_one,
-        'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'city' => $location->city,
-        'state' => $location->state,
+        $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+        'address_one' => $companyAddress->address_one,
+        'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'city' => $companyAddress->city,
+        'state' => $companyAddress->state,
         'post_code' => 'CTAA1AA'
         ]);
 
@@ -390,14 +383,14 @@ class LocationsControllerTest extends TestCase
      */
     public function Unauth_Post_Gives_Errors()
     {
-        $location = factory(Location::class)->create();
+        $companyAddress = factory(CompanyAddress::class)->create();
         
-        $response = $this->json('POST','/api/locations', ['name' => $location->name,
-        'address_one' => $location->address_one,  'address_two' => $location->address_two,
-        'address_three' => $location->address_three,
-        'city' => $location->city,
-        'state' => $location->state,
-        'post_code' => $location->post_code,
+        $response = $this->json('POST','/api/companyaddresses', ['name' => $companyAddress->name,
+        'address_one' => $companyAddress->address_one,  'address_two' => $companyAddress->address_two,
+        'address_three' => $companyAddress->address_three,
+        'city' => $companyAddress->city,
+        'state' => $companyAddress->state,
+        'post_code' => $companyAddress->post_code,
         ]);
        
         $response->assertJsonCount(1);
@@ -408,7 +401,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Put_Location_Updates_DB_Entry()
+    public function Put_CompanyAddress_Updates_DB_Entry()
     {
         $this->withoutExceptionHandling();
         Airlock::actingAs(
@@ -417,8 +410,8 @@ class LocationsControllerTest extends TestCase
         );
 
         factory(Permission::class)->create([
-            'description' => 'Allow Edit Location',
-            'active' => true
+            'description' => 'Allow Edit Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -428,9 +421,9 @@ class LocationsControllerTest extends TestCase
            ]);
 
 
-        factory(Location::class)->create();
+        factory(CompanyAddress::class)->create();
 
-        $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
+        $response = $this->json('PUT','/api/companyaddress/1', ["name" => 'updated name']);
         
         $response->assertJson([
             'name' => 'updated name',
@@ -442,7 +435,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Put_Unknown_Location_Gives_Error()
+    public function Put_Unknown_CompanyAddress_Gives_Error()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -451,8 +444,8 @@ class LocationsControllerTest extends TestCase
 
         
         factory(Permission::class)->create([
-            'description' => 'Allow Edit Location',
-            'active' => true
+            'description' => 'Allow Edit Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -461,7 +454,7 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
+        $response = $this->json('PUT','/api/companyaddress/1', ["name" => 'updated name']);
         $response->assertStatus(404);
     }
 
@@ -471,7 +464,7 @@ class LocationsControllerTest extends TestCase
      */
     public function Put_Fails_If_Unauthorised()
     {
-        $response = $this->json('PUT','/api/location/1', ["name" => 'updated name']);
+        $response = $this->json('PUT','/api/companyaddress/1', ["name" => 'updated name']);
         $response->assertJson([
             'message' => "Unauthenticated.",
         ]);
@@ -484,7 +477,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Delete_Location_Removes_Db_Entry()
+    public function Delete_CompanyAddress_Removes_Db_Entry()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -493,8 +486,8 @@ class LocationsControllerTest extends TestCase
 
         
         factory(Permission::class)->create([
-            'description' => 'Allow Delete Location',
-            'active' => true
+            'description' => 'Allow Delete Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -503,9 +496,9 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        factory(Location::class)->create();
+        factory(CompanyAddress::class)->create();
 
-        $response = $this->json('DELETE','/api/location/1');
+        $response = $this->json('DELETE','/api/companyaddress/1');
         $response->assertJson([
             'success' => 1,
         ]);
@@ -517,7 +510,7 @@ class LocationsControllerTest extends TestCase
      *
      * @test
      */
-    public function Delete_Unknown_Location_Gives_Error()
+    public function Delete_Unknown_CompanyAddress_Gives_Error()
     {
         Airlock::actingAs(
             factory(Recruiter::class)->create(),
@@ -526,8 +519,8 @@ class LocationsControllerTest extends TestCase
 
         
         factory(Permission::class)->create([
-            'description' => 'Allow Delete Location',
-            'active' => true
+            'description' => 'Allow Delete Company Address',
+            
         ]);
         factory(Role::class)->create();
         DB::table('role_permissions')->insert(
@@ -536,7 +529,7 @@ class LocationsControllerTest extends TestCase
              'role_id' => 1, 
            ]);
 
-        $response = $this->json('DELETE','/api/location/1');
+        $response = $this->json('DELETE','/api/companyaddress/1');
         $response->assertStatus(404);
 
     }
@@ -547,7 +540,7 @@ class LocationsControllerTest extends TestCase
      */
     public function Delete_Fails_If_Unauthorised()
     {
-        $response = $this->json('DELETE','/api/location/1');
+        $response = $this->json('DELETE','/api/companyaddress/1');
         $response->assertJson([
             'message' => "Unauthenticated.",
         ]);

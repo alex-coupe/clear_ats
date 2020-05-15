@@ -26,10 +26,9 @@ $factory->define(Recruiter::class, function (Faker $faker) {
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
         'telephone' => $faker->phoneNumber,
-        'location_id' => $faker->numberBetween(0,5),
+        'company_address_id' => $faker->numberBetween(0,5),
         'job_title' => $faker->jobTitle,
         'mobile' => $faker->e164PhoneNumber,
-        'dob' => $faker->date,
         'role_id'=> 1,
         'company_id' => $faker->numberBetween(0,2)
     ];

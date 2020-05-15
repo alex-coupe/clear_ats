@@ -22,11 +22,10 @@ class CreateRecruitersTable extends Migration
             $table->string('password');
             $table->string('job_title');
             $table->string('telephone');
-            $table->string('mobile');
-            $table->integer('location_id');
+            $table->string('mobile')->nullable();
+            $table->integer('company_address_id');
             $table->integer('company_id');
             $table->integer('role_id');
-            $table->date('dob');
             $table->rememberToken();
             $table->timestamps();
         });

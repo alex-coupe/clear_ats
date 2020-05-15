@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\LocationCollection;
-use App\Http\Resources\LocationResource;
-use App\Location;
-use App\Http\Requests\StoreLocation;
-use App\Http\Requests\UpdateLocation;
+use App\Http\Resources\CompanyAddressCollection;
+use App\Http\Resources\CompanyAddressResource;
+use App\CompanyAddress;
+use App\Http\Requests\StoreCompanyAddress;
+use App\Http\Requests\UpdateCompanyAddress;
 use App\Recruiter;
 
-class LocationsController extends Controller
+class CompanyAddressesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +21,9 @@ class LocationsController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To All Locations")
+            if ($permission->description == "Allow Access To All Company Addresses")
             {
-                return new LocationCollection(Location::all());
+                return new CompanyAddressCollection(CompanyAddress::all());
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);        
@@ -32,18 +32,18 @@ class LocationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreLocation  $request
+     * @param  \Illuminate\Http\StoreCompanyAddress  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLocation $request)
+    public function store(StoreCompanyAddress $request)
     {
         
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Create Location")
+            if ($permission->description == "Allow Create Company Address")
             {
-                $location = Location::create($request->validated());
-                return $location;
+                $companyAddress = CompanyAddress::create($request->validated());
+                return $companyAddress;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);     
@@ -59,9 +59,9 @@ class LocationsController extends Controller
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Access To Specific Location")
+            if ($permission->description == "Allow Access To Specific Company Address")
             {
-                return new LocationResource(Location::where('id',$id)->firstOrFail());
+                return new CompanyAddressResource(CompanyAddress::where('id',$id)->firstOrFail());
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);     
@@ -70,19 +70,19 @@ class LocationsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\UpdateLocation  $request
+     * @param  \Illuminate\Http\UpdateCompanyAddress  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateLocation $request, $id)
+    public function update(UpdateCompanyAddress $request, $id)
     {
         $permissions = Recruiter::GetPermissions();
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Edit Location")
+            if ($permission->description == "Allow Edit Company Address")
             {
-                $location = Location::findOrFail($id);
-                $location->update($request->validated());
-                return $location;
+                $companyAddress = CompanyAddress::findOrFail($id);
+                $companyAddress->update($request->validated());
+                return $companyAddress;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);     
@@ -98,10 +98,10 @@ class LocationsController extends Controller
     {
         $permissions = Recruiter::GetPermissions(); 
         foreach($permissions as $permission) {
-            if ($permission->description == "Allow Delete Location")
+            if ($permission->description == "Allow Delete Company Address")
             {
-                $location = Location::findOrFail($id);
-                $result = $location->delete();
+                $companyAddress = CompanyAddress::findOrFail($id);
+                $result = $companyAddress->delete();
                 return response()->json(["success" => $result]);
             }
         }

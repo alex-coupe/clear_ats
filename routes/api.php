@@ -21,12 +21,12 @@ Route::middleware('auth:airlock')->post('/recruiters', 'RecruitersController@sto
 Route::middleware('auth:airlock')->put('/recruiter/{id}', 'RecruitersController@update');
 Route::middleware('auth:airlock')->delete('/recruiter/{id}', 'RecruitersController@destroy');
 
-//Locations
-Route::middleware('auth:airlock')->get('/locations', 'LocationsController@index');
-Route::middleware('auth:airlock')->get('/location/{id}', 'LocationsController@show');
-Route::middleware('auth:airlock')->post('/locations', 'LocationsController@store');
-Route::middleware('auth:airlock')->put('/location/{id}', 'LocationsController@update');
-Route::middleware('auth:airlock')->delete('/location/{id}', 'LocationsController@destroy');
+//CompanyAddresses
+Route::middleware('auth:airlock')->get('/companyaddresses', 'CompanyAddressesController@index');
+Route::middleware('auth:airlock')->get('/companyaddress/{id}', 'CompanyAddressesController@show');
+Route::middleware('auth:airlock')->post('/companyaddresses', 'CompanyAddressesController@store');
+Route::middleware('auth:airlock')->put('/companyaddress/{id}', 'CompanyAddressesController@update');
+Route::middleware('auth:airlock')->delete('/companyaddress/{id}', 'CompanyAddressesController@destroy');
 
 //Companies
 Route::middleware('auth:airlock')->get('/companies', 'CompaniesController@index');
