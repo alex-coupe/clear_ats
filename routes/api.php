@@ -34,3 +34,7 @@ Route::middleware('auth:airlock')->get('/company/{id}', 'CompaniesController@sho
 Route::middleware('auth:airlock')->post('/companies', 'CompaniesController@store');
 Route::middleware('auth:airlock')->put('/company/{id}', 'CompaniesController@update');
 Route::middleware('auth:airlock')->delete('/company/{id}', 'CompaniesController@destroy');
+
+//Candidates
+Route::middleware('auth:airlock')->get('/candidates', 'CandidatesController@index');
+Route::middleware('auth:airlock')->get('/candidate/{id}', 'CandidatesController@show');

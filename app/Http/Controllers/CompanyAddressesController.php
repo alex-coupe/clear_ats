@@ -23,7 +23,7 @@ class CompanyAddressesController extends Controller
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Access To All Company Addresses" && $permission->active == true)
             {
-                return new CompanyAddressCollection(CompanyAddress::all());
+                return new CompanyAddressCollection(CompanyAddress::where('company_id','=', auth()->user()->company_id));
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401);        

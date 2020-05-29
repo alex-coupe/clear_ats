@@ -12,5 +12,6 @@ $factory->define(Candidate::class, function (Faker $faker) {
         'last_name' => $faker->lastName,
         'cv_path' => $faker->firstName.$faker->lastName.'cv.doc',
         'cover_path' => $faker->firstName.$faker->lastName.'cover_letter.doc',
+        'recruiter_id' => 1
     ];
 });
