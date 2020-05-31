@@ -41,8 +41,8 @@ class CompaniesController extends Controller
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Create Company" && $permission->active == true)
             {
-                $Company = Company::create($request->validated());
-                return $Company;
+                $company = Company::create($request->validated());
+                return $company;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401); 
@@ -79,9 +79,9 @@ class CompaniesController extends Controller
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Edit Company" && $permission->active == true)
             {
-                $Company = Company::findOrFail($id);
-                $Company->update($request->validated());
-                return $Company;
+                $company = Company::findOrFail($id);
+                $company->update($request->validated());
+                return $company;
             }
         }
         return response()->json(['error' => 'Not Authorised.'], 401); 
@@ -99,8 +99,8 @@ class CompaniesController extends Controller
         foreach($permissions as $permission) {
             if ($permission->description == "Allow Delete Company" && $permission->active == true)
             {
-                $Company = Company::findOrFail($id);
-                $result = $Company->delete();
+                $company = Company::findOrFail($id);
+                $result = $company->delete();
                 return response()->json(["success" => $result]);
             }
         }

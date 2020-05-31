@@ -7,6 +7,7 @@ use App\Recruiter;
 use App\Candidate;
 use App\Http\Resources\CandidatesCollection;
 use App\Http\Resources\CandidateResource;
+use App\Http\Requests\StoreCandidate;
 
 
 class CandidatesController extends Controller
@@ -31,12 +32,25 @@ class CandidatesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreCandidate  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCandidate $request)
     {
-        //
+        $permissions = Recruiter::GetPermissions();
+        foreach($permissions as $permission) {
+            if ($permission->description == "Allow Create Candidates" && $permission->active == true)
+            {
+                $candidate = Candidate::create($request->validated());
+                $candidate->cv_path = $request->file('cv')->getClientOriginalName();
+                $request->file('cv')->storeAs('files',$request->file('cv')->getClientOriginalName() );
+                $candidate->cover_path = $request->file('cover')->getClientOriginalName();
+                $request->file('cover')->storeAs('files',$request->file('cover')->getClientOriginalName()); 
+                $candidate->save();
+                return $candidate;
+            }
+        }
+        return response()->json(['error' => 'Not Authorised.'], 401);  
     }
 
     /**

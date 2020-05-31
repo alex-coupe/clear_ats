@@ -18,7 +18,7 @@ class CreateCandidatesTable extends Migration
             $table->string('first_name');
             $table->string('email');
             $table->string('last_name');
-            $table->string('cv_path');
+            $table->string('cv_path')->default("");
             $table->string('cover_path')->nullable();
             $table->integer('recruiter_id');
             $table->boolean('introductory_contact_complete')->default(false);

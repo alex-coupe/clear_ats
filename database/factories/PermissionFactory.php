@@ -12,7 +12,7 @@ $factory->define(Permission::class, function (Faker $faker) {
     'Allow Delete Company Address', 'Allow Edit Company Address', 'Allow Access To All Company Addresses', 
     'Allow Access To Specific Company Address', 'Allow Create Role', 'Allow Delete Role', 'Allow Edit Role',
     'Allow Access To All Roles', 'Allow Access To My Role', 'Allow Access To All Recruiters', 'Allow Access To Recruiter',
-    'Allow Update Recruiter', 'Allow Delete Recruiter', 'Allow Access To All Candidates', 'Allow Access To Specific Candidate'];
+    'Allow Update Recruiter', 'Allow Delete Recruiter', 'Allow Access To All Candidates', 'Allow Access To Specific Candidate', 'Allow Create Candidates'];
     //Add more as we go
     return [
        'description' => $faker->randomElement($permissions),
